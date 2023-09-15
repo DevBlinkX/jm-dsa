@@ -1,0 +1,174 @@
+{%extends 'web/base.html.j2'%}
+{% block title %} SignUp Corporate | Blinkx{% endblock %}
+{% block content %}
+<!-- main -->
+<style>
+  #otphelp {
+    font-size: 16px;
+  }
+</style>
+<main class="auth-page signup-page m-4">
+
+  <!-- banner -->
+  <section class="banner-section">
+    <div class="container">
+      <div class="row theme-bg-gray py-3 position-relative border-radious-10 align-items-center">
+        <div class="col-md-12 text-center">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="d-md-none mb-3 logo-mob">
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <!-- sidebar -->
+          <div class="auth-sidebar">
+            <div class="gradient-bg">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="top-left">
+              <img src="{{static('assets/images/icons/s1.png')}}" alt="dot" class="top-right">
+              <img src="{{static('assets/images/icons/s2.png')}}" alt="dot" class="bottom-left">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="bottom-right">
+              <div class="content-sidebar">
+
+<h2 class="text-white text-center font-weight-bold">Register with Corporate program</h2>
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <!-- sidebar -->
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-6">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="logo-top d-none d-md-block">
+          <form action="/api/signup/" method="post" data-signup-form class="position-relative">
+            <div class="steps-top">
+              <div class="steps primary-color">Step 1 <span class="secondary-color">/ 2</span></div>
+            </div>
+
+            <div class="p-md-5 mt-5" data-signup-form="step-1">
+              <div>
+                <h3>Register with Corporate program</h3>
+                <p class="secondary-color">We will send you a one-time password to this mobile number</p>
+              </div>
+
+              <div class="mb-3">
+                <div class="form-group">
+                  <input type="text" id="name" name="name" class="form-control" aria-describedby="nameHelp"
+                    data-check-username required>
+                  <label class="form-control-placeholder" for="name">Your Name</label>
+                  <div id="nameHelp" class="form-text text-danger error">Enter Your Valid Name</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <div class="form-group">
+                  <input type="email" name="email" id="email" class="form-control" aria-describedby="data-email-error"
+                    data-check-email required>
+                  <label class="form-control-placeholder" for="email">Email address</label>
+                  <div data-email-error class="form-text text-danger error">Enter Your Valid Email Id</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <div class="form-group mt-4">
+                  <input name="mobile" pattern="[789][0-9]{9}" title="Please enter valid mobile number" type="tel"
+                    min="1" max="10" maxlength="10" id="mobile" class="form-control" aria-describedby="data-mobile-error"
+                    data-check-mobile required>
+                  <label class="form-control-placeholder" for="mobile">Enter Mobile Number</label>
+                  <div data-mobile-error class="form-text text-danger error">Enter Your Valid Mobile Number</div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary gradient-btn" data-step-button="1">Next
+                Step</button>
+            </div>
+
+            <!-- form 2 -->
+            <div class="p-md-5 mt-5" data-signup-form="step-2" style="display: none;">
+              <div class="steps-top step-2">
+                <div class="steps primary-color">Step 2 <span class="secondary-color">/ 2</span></div>
+              </div>
+              <div>
+                <h3>Verify OTP with Corporate program</h3>
+                <p class="secondary-color">Please enter the valid one time password (OTP)</p>
+              </div>
+              <div class="">
+                <input type="hidden" name="mobile_verification_code" id="mobile_verification_code">
+                <div class="d-flex justify-content-start position-relative my-4 otp-form">
+                  <input class="otp otp-1" type="text" oninput='digitValidate(this)' onkeyup='tabChange(1)' maxlength=1
+                    required>
+                  <input class="otp otp-2" type="text" oninput='digitValidate(this)' onkeyup='tabChange(2)' maxlength=1
+                    required>
+                  <input class="otp otp-3" type="text" oninput='digitValidate(this)' onkeyup='tabChange(3)' maxlength=1
+                    required>
+                  <input class="otp otp-4" type="text" oninput='digitValidate(this)' onkeyup='tabChange(4)' maxlength=1
+                    required>
+                  <input class="otp otp-5" type="text" oninput='digitValidate(this)' onkeyup='tabChange(5)' maxlength=1
+                    required>
+                  <input class="otp otp-6" type="text" oninput='digitValidate(this)' onkeyup='tabChange(6)' maxlength=1
+                    required>
+                </div>
+                {# <div class="mb-3" style="text-align: right;"><a href="javascript:void(0);" data-signup-resend-otp
+                    class="">Resend
+                    OTP</a></div> #}
+
+                <div id="otpHelp" class="form-text text-danger error mb-3">Invalid Otp</div>
+                <p class="resend-otp">
+                  Resend Code in <span class="" id="counter"></span>
+                </p>
+                <button type="submit" class="btn btn-primary gradient-btn w-auto px-5"
+                  data-step-button="2">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- banner end-->
+
+</main>
+<!-- main end -->
+
+<!-- data-bs-toggle="modal" data-bs-target="#exampleModal" -->
+<div class="modal fade" id="verify_demat_account" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center mt-4 py-5 px-5">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><img
+            src="{{static('assets/images/icons/cross.svg')}}" alt="close modal"></button>
+        <img src="{{static('assets/images/modal.svg')}}" width="150" alt="open dmat account">
+        <h4 class="my-3 pt-4"></h4>
+        <p class="secondary-color small px-md-5 mb-4"></p>
+        <div><a id="thank-btn" class="btn btn-primary gradient-btn w-auto px-5">Open Demat Account</a></div>
+        <a id="newlink" class="d-none" href="http://www.google.com/" target="_blank" rel="noopener noreferrer">new
+          link</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal end-->
+
+{% endblock %}
+
+{% block extra_footer_script %}
+<!-- otp input jump script  step-3 -->
+<script>
+  let digitValidate = function (ele) {
+    ele.value = ele.value.replace(/[^0-9]/g, '');
+  }
+
+  let tabChange = function (val) {
+    let ele = document.querySelectorAll('.otp-form input');
+    if (ele[val - 1].value != '') {
+      ele[val].focus();
+    } else if (ele[val - 1].value == '') {
+      ele[val - 2].focus();
+    }
+  }
+  $("#thank-btn").on("click", function () {
+
+    $('#newlink').click(function () {
+      this.click();
+    }).click();
+    window.location.href = "/thankyou";
+
+  })
+
+</script>
+{% endblock %}

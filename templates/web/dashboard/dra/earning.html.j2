@@ -1,0 +1,337 @@
+{%extends 'web/dra-base-dashboard.html.j2'%}
+{% block title %} Settlement | Blinkx{% endblock %}
+{%block custom_css%}
+<style>
+    #leadModal .close {
+        top: 50px;
+        right: 35px;
+        background: #fff3ee;
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+
+    #leadModal .modal-body {
+        padding: 0rem 1.6rem;
+    }
+
+    #leadModal .modal-header {
+        padding: 1rem 1.6rem;
+        padding-top: 2rem;
+    }
+
+    #infoModal .modal-card {
+        height: 120px;
+        width: 365px;
+        border-radius: 10px;
+        border: 1px solid #f6d5dc;
+    }
+
+    h5#infoModalLabel {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1f1f1f;
+    }
+
+    #infoModal .modal-body {
+        padding: 1.6rem;
+        padding-bottom: 2rem;
+    }
+
+    #infoModal .modal-header {
+        padding: 1rem 1.6rem;
+        padding-top: 2rem;
+    }
+
+    #infoModal .close {
+        top: 50px;
+        right: 35px;
+        background: #fff3ee;
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+
+    .modal-card .text>div {
+        color: #555555;
+
+    }
+
+    .modal-card .text div:nth-child(2) {
+        font-weight: 600;
+        font-size: 24px;
+        color: #1C1B20;
+    }
+
+    .modal-card .img-wrapper {
+        width: 170px;
+        border: 1px solid #f6d5dc;
+        border-top-left-radius: 55px;
+        border-bottom-left-radius: 55px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .black-dot {
+        background: #010101;
+        height: 10px;
+        width: 10px;
+    }
+
+    .bg-beige {
+        /*background: #f7f7f7;*/
+        background: #d1d2d5;
+        color: #f7f7f7;
+    }
+
+    .info-bottom path {
+        fill: #010101;
+    }
+
+    .text-black {
+        color: #010101;
+    }
+    @media screen and (max-width:768px){
+        .info-btn{
+            line-height: 1.7;
+        }
+
+        /*  .custom-scroll{
+            height: 100vh;
+            overflow-y: scroll;
+        } */
+        ::-webkit-scrollbar {
+        height: 0.5rem;
+        width: 0.5rem;
+        }
+        .table-responsive{
+            max-height: 45vh;
+        }
+    }
+</style>
+{%endblock%}
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Content Wrapper -->
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column custom-scroll">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5 justify-content-between">
+
+            <!-- Sidebar Toggle (Topbar) -->
+<!-- deleted -->
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">Settlement</p>
+
+            </div>
+            {%include 'web/dashboard/_partials/dra/header.html.j2'%}
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+
+
+            <div class="row">
+                <div class="col-12 col-xl-12 col-lg-12">
+                    <div class="d-md-flex justify-content-end mb-3">
+                        <div class="search-form mr-md-3"><i class='fa fa-calendar calander-icon' aria-hidden='true'></i> <input class="custom_date search-input form-control px-1 bg-white" type="text" placeholder="Custom Date Select.." data-id="confirmDate" readonly="readonly"></div>
+                        <div class="d-flex align-items-center justify-content-center" >
+                        <select class="custom-select w-auto mr-md-3 mr-1 download-select" name="" id="">
+                            <option selected disabled
+                                data-display="<i class='fa fa-download' aria-hidden='true'></i> Download">Download
+                            </option>
+                            <option value="pdf">Pdf</option>
+                            <option value="xlsx">Xls</option>
+
+                        </select>
+                        <button type="button" name="" id="" class="btn info-btn mr-md-3 mr-1" data-toggle="modal"
+                            data-target="#infoModal"> <span> <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M8 0C3.58203 0 0 3.58332 0 8C0 12.4193 3.58203 16 8 16C12.418 16 16 12.4193 16 8C16 3.58332 12.418 0 8 0ZM8 3.54839C8.74826 3.54839 9.35484 4.15497 9.35484 4.90323C9.35484 5.65148 8.74826 6.25806 8 6.25806C7.25174 6.25806 6.64516 5.65148 6.64516 4.90323C6.64516 4.15497 7.25174 3.54839 8 3.54839ZM9.80645 11.7419C9.80645 11.9557 9.63313 12.129 9.41935 12.129H6.58065C6.36687 12.129 6.19355 11.9557 6.19355 11.7419V10.9677C6.19355 10.754 6.36687 10.5806 6.58065 10.5806H6.96774V8.51613H6.58065C6.36687 8.51613 6.19355 8.34281 6.19355 8.12903V7.35484C6.19355 7.14106 6.36687 6.96774 6.58065 6.96774H8.64516C8.85894 6.96774 9.03226 7.14106 9.03226 7.35484V10.5806H9.41935C9.63313 10.5806 9.80645 10.754 9.80645 10.9677V11.7419Z"
+                                        fill="#010101" />
+                                </svg>
+                            </span>
+                            Info</button>
+                        
+                        <select class="w-auto custom-select days-select custom-width my-0 my-md-0" name="" id="">
+                            <option selected disabled
+                                data-display="<i class='fa fa-filter' aria-hidden='true'></i> Filter"> Filter
+                            </option>
+                            <option value="30">Last 30 days</option>
+                            <option value="60">Last 60 days</option>
+                            <option value="90">Last 90 days</option>
+
+                        </select>
+                        </div>
+
+                    </div>
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4 position-relative w-100">
+                        <!-- loader here  -->
+                        <div class="loader-wrapper card-loader">
+                            <div class="loader"></div>
+                        </div>
+                        <!-- ends here  -->
+
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="bg-beige">
+                                        <tr class="text-center">
+                                            <th>Sr No.</th>
+                                            <th>Month</th>
+                                            <th>Converted</th>
+                                            <th>Trade active</th>
+                                            <th class="text-center">incentive</th>
+                                            <th class="text-center">net brokerage</th>
+                                            <th>gross brokerage</th>
+                                            <th class="text-center">total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-earning-table>
+                                    </tbody>
+                                </table>
+                                <div data-empty-category style="display: none;" class="card w-100 mt-4">
+                                    <p class="h6 text-center py-5">No Data Available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="d-flex justify-content-end mb-3 align-items-center">
+                        <div class="green-dot m-0">
+                        </div>
+                        <span class="mr-3 ml-2">
+                            Trade Active
+                        </span>
+                        <div class="red-dot m-0">
+
+                        </div>
+                        <span class="ml-2">
+                            Not Active
+                        </span>
+                    </div> -->
+
+                </div>
+
+            </div>
+
+            <p id="pagination-here" class="d-flex justify-content-center"></p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <!-- <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer> -->
+    <!-- End of Footer -->
+    <div class="bottom-note px-3">
+
+        <div class="d-flex flex-column justify-content-end mb-3 align-items-start bg-beige pl-2 py-2" style="
+    border-radius: 12px;">
+            <p class="text-black font-size-18"> <svg class="mr-2 info-bottom" width="16" height="16" viewBox="0 0 16 16"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M8 0C3.58203 0 0 3.58332 0 8C0 12.4193 3.58203 16 8 16C12.418 16 16 12.4193 16 8C16 3.58332 12.418 0 8 0ZM8 3.54839C8.74826 3.54839 9.35484 4.15497 9.35484 4.90323C9.35484 5.65148 8.74826 6.25806 8 6.25806C7.25174 6.25806 6.64516 5.65148 6.64516 4.90323C6.64516 4.15497 7.25174 3.54839 8 3.54839ZM9.80645 11.7419C9.80645 11.9557 9.63313 12.129 9.41935 12.129H6.58065C6.36687 12.129 6.19355 11.9557 6.19355 11.7419V10.9677C6.19355 10.754 6.36687 10.5806 6.58065 10.5806H6.96774V8.51613H6.58065C6.36687 8.51613 6.19355 8.34281 6.19355 8.12903V7.35484C6.19355 7.14106 6.36687 6.96774 6.58065 6.96774H8.64516C8.85894 6.96774 9.03226 7.14106 9.03226 7.35484V10.5806H9.41935C9.63313 10.5806 9.80645 10.754 9.80645 10.9677V11.7419Z"
+                        fill="#010101" />
+                </svg>Important Notes</p>
+            <div class=" d-flex mb-1">
+                <div class="green-dot black-dot mt-1 mr-2">
+                </div>
+                <span class="mr-2 text-black w-100">
+                    5% TDS will
+                    be deducted on the incentive payable (The exsisting TDS rate of
+                    3.75% has been revised to 5% effective
+                    from 1st April 2022)
+                </span>
+            </div>
+            <div class="d-flex">
+                <div class="green-dot black-dot mt-1 mr-2">
+                </div>
+                <span class="mr-2 text-black w-100">
+                    Payout is released on 10th day of every month
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- End of Content Wrapper -->
+
+
+<!-- Logout Modal-->
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Payment Plan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="d-md-flex justify-content-between align-items-center">
+                    <div class="modal-card d-flex justify-content-between">
+                        <div class="d-flex flex-column justify-content-center pl-4 text">
+                            <div class="mb-2">Incentive</div>
+                            <div><img src="{{static('assets/images/rupee.png')}}" alt="" width="20" class="mr-1"><span
+                                    data-incentive>36%</span></div>
+                        </div>
+                        <div class="img-wrapper">
+                            <img src="{{static('assets/images/pana.png')}}" alt="" class="">
+                        </div>
+                    </div>
+                    <div class="modal-card d-flex justify-content-between">
+                        <div class="d-flex flex-column justify-content-center pl-4 text">
+                            <div class="mb-2">Brokerage</div>
+                            <div data-brokerage> &#8377 45,348</div>
+                        </div>
+                        <div class="img-wrapper">
+                            <img src="{{static('assets/images/pana2.png')}}" alt="" class="">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_footer_script %}
+<script src="https://cdn.rawgit.com/botmonster/jquery-bootpag/master/lib/jquery.bootpag.min.js"></script>
+<script src="{{static('dashboard/js/integration/earning.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    //  $('.days-select').niceSelect();
+    $('.custom-select').niceSelect();
+   // $('.download-select').niceSelect();
+
+</script>
+{% endblock %}

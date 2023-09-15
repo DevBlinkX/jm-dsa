@@ -1,0 +1,21 @@
+SECRET_KEY=
+DEBUG=True
+ALLOWED_HOSTS=localhost,192.168.1.19,0.0.0.0
+# DATABASE_URL=postgres://apple:q1w2e3r4@127.0.0.1:5432/jm_financials
+DATABASE_URL=postgres://postgres:q1w2e3r4@localhost:5432/jm-app
+# DATABASE_URL=sqlite:////home/killer/Desktop/projects/thinksmartz/project/db.sqlite3
+BASE_URL="http://192.168.1.19:8000/"
+#SMS settings
+SMS_USER_ID=
+SMS_PASSWORD=
+LEAD_SQUARE_ACCESS_KEY=
+LEAD_SQUARE_SECRET_KEY=
+#email SMTP settings
+USE_EMAIL=
+EMAIL_HOST=
+EMAIL_PORT=
+EMAIL_HOST_USER=
+EMAIL_HOST_PASSWORD=
+ADMIN_EMAIL=
+WHATSAPP_USER_ID=
+WHATSAPP_PASSWORD=

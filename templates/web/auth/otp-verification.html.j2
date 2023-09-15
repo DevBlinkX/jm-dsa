@@ -1,0 +1,90 @@
+{%extends 'web/base.html.j2'%}
+{% block title %} OTP Verification | Blinkx{% endblock %}
+{% block content %}
+<!-- main -->
+<main class="auth-page otp-page m-4">
+
+  <!-- banner -->
+  <section class="banner-section">
+    <div class="container">
+      <div class="row theme-bg-gray py-3 position-relative border-radious-10">
+        <div class="col-md-12 text-center">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="d-md-none mb-3 logo-mob">
+        </div>
+        <div class="col-12 col-md-4">
+          <!-- sidebar -->
+          <div class="auth-sidebar">
+            <div class="gradient-bg">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="top-left">
+              <img src="{{static('assets/images/icons/s1.png')}}" alt="dot" class="top-right">
+              <img src="{{static('assets/images/icons/s2.png')}}" alt="dot" class="bottom-left">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="bottom-right">
+              <div class="content-sidebar">
+                <h1>OTP Verification with DRA program</h1>
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <!-- sidebar -->
+        </div>
+
+        <div class="col-12 col-md-6">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="logo-top d-none d-md-block">
+          <div class="p-md-5 mt-5">
+            <div>
+              <h3>OTP Verification with DRA program</h3>
+              <p class="secondary-color">Enter the OTP send to <a href="tel:999999999">+91 445 444 555</a></p>
+            </div>
+            <form action="" class="otp-form">
+              <input type="hidden" name="mobile" id="eMobileNumber">
+              {# <div class="mb-3">
+                <label for="mobile" class="placeholder form-label">Enter Mobile Number</label>
+                <input type="tel" class="form-control" id="mobile" aria-describedby="data-mobile-error" required>
+                <div data-mobile-error class="form-text text-danger error">Enter Your Mobile Number</div>
+              </div> #}
+              <div class="d-flex justify-content-start position-relative my-4">
+                <input class="otp otp-1" type="text" oninput='digitValidate(this)' onkeyup='tabChange(1)' maxlength=1
+                  required>
+                <input class="otp otp-2" type="text" oninput='digitValidate(this)' onkeyup='tabChange(2)' maxlength=1
+                  required>
+                <input class="otp otp-3" type="text" oninput='digitValidate(this)' onkeyup='tabChange(3)' maxlength=1
+                  required>
+                <input class="otp otp-4" type="text" oninput='digitValidate(this)' onkeyup='tabChange(4)' maxlength=1
+                  required>
+                <input class="otp otp-5" type="text" oninput='digitValidate(this)' onkeyup='tabChange(5)' maxlength=1
+                  required>
+                <input class="otp otp-6" type="text" oninput='digitValidate(this)' onkeyup='tabChange(6)' maxlength=1
+                  required>
+              </div>
+              <button type="submit" class="btn btn-primary gradient-btn w-auto px-5">Submit</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- banner end-->
+
+</main>
+<!-- main end -->
+{% endblock %}
+{% block extra_footer_script %}
+<!-- otp input jump script  step-3 -->
+<script>
+  let digitValidate = function (ele) {
+    console.log(ele.value);
+    ele.value = ele.value.replace(/[^0-9]/g, '');
+  }
+
+  let tabChange = function (val) {
+    let ele = document.querySelectorAll('.otp-form input');
+    if (ele[val - 1].value != '') {
+      ele[val].focus();
+    } else if (ele[val - 1].value == '') {
+      ele[val - 2].focus()
+    }
+  }
+
+</script>
+{% endblock %}

@@ -1,0 +1,739 @@
+{%extends 'web/rmj-base-dashboard.html.j2'%}
+
+
+
+{% block title %} Dashboard| Blinkx{% endblock %}
+
+
+
+{% block content %}
+<style>
+    .calander-icon{
+        top: -10px;
+    }
+    #pendingModal .close {
+        top: 50px;
+        right: 35px;
+        background: #fff3ee;
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+
+    ::-webkit-scrollbar {
+        height: 0.5rem;
+        width: 0.5rem;
+    }
+
+    .modal .close {
+        top: 50px;
+        right: 35px;
+        background: #fff3ee;
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+
+    .modal .modal-body {
+        padding: 0rem 1.6rem;
+    }
+
+    .modal .modal-header {
+        padding: 1rem 1.6rem;
+        padding-top: 2rem;
+    }
+
+    @media screen and (max-width:768px){
+    .overview-scroll{
+        overflow-y: scroll;
+        height: 100vh;
+    }
+
+    #leadChartArea , #brokerageChartArea , #incentiveChartArea , #totalChartArea {
+        height: 300px;
+    }
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5 justify-content-between">
+
+
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">Welcome, <span
+                        class="primary-color text-gradient text-capitalize">{{request.user.name}}</span></p>
+                <p class="m-0"> </p>
+            </div>
+            {%include 'web/dashboard/_partials/rmj/header.html.j2'%}
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="d-flex align-items-left justify-content-between mb-4 flex-column flex-md-row">
+                <h1 class="h3 mb-3 font-weight-500 overview-heading">Overview</h1>
+
+                <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+                <div class="d-flex align-items-center" >
+                <div class="search-form mr-3"><i class='fa fa-calendar calander-icon filter-calender-icon' aria-hidden='true'></i> <input class="custom_dateR search-input form-control px-1 bg-white" type="text" placeholder="Custom Date Select.." data-id="confirmDate" readonly="readonly"></div>
+                <select  class="dashboard-filter w-auto custom-select" name="" id="">
+                    <option selected disabled data-display="<i class='fa fa-filter' aria-hidden='true'></i> Filter">
+                        Filter</option>
+                    <option value="30">Last 30 days</option>
+                    <option value="60">Last 60 days</option>
+                    <option value="90">Last 90 days</option>
+                </select>
+<a href="#" onclick="location.reload();" style="display: none;" data-clear-filter class="ml-md-3 mr-3">Clear <i class='fa fa-times' aria-hidden='true'></i> </a>
+                </div>
+
+            </div>
+
+            <!-- Content Row -->
+            <div class="row position-relative">
+                <!-- loader here  -->
+                <div class="loader-wrapper card-loader">
+                    <div class="loader"></div>
+                </div>
+                <!-- ends here  -->
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-12 col-md-12 mb-4 top-cards">
+                    <!-- <div class="card h-100 py-md-2" data-toggle="modal" data-target="#leadModal"> -->
+
+<div class="card h-100 py-md-2 w-100 text-secondary text-decoration-none">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        total Loan application</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-total-leads></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/total-leads.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card h-100 py-md-2 w-100 text-secondary text-decoration-none">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        Total pending Loan application</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-pending-mandate></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/total-leads.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card h-100 py-md-2 w-100 text-secondary text-decoration-none">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        Total rejected Loan application</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-rejected-mandate></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/total-leads.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card h-100 py-md-2 w-100 text-secondary text-decoration-none">
+                        <div class="">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-start">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                            Total successful Loan application</div>
+                                        <div class="h5 mb-0 font-weight-600 black-color" data-successful-mandate></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <img src="{{static('dashboard/img/overview/account-opened.svg')}}" alt="" class="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="card h-100 py-md-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        Total Loan Disbursed Successfully</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-disbursal-rate></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/trading-client.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+
+            <!-- Content Row -->
+
+            <div class="row position-relative">
+                <!-- loader here  -->
+                <div class="loader-wrapper card-loader">
+                    <div class="loader"></div>
+                </div>
+                <!-- ends here  -->
+                <!-- Area Chart -->
+                <div class="col-12 col-xl-6 col-lg-6">
+                    <div class="card graph-card mb-4">
+<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Total loan application</h6>
+                        </div>
+                        
+                        <div class="card-body p-0" no-total-data>
+                            <div class="chart-pie pt-4 pb-2" id="leadChartArea">
+                                <canvas id="leadChart"></canvas>
+                            </div>
+
+                        </div>
+
+                        <!-- Card Header - Dropdown -->
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="col-12 col-xl-6 col-lg-6">
+                    <div class="card graph-card mb-4">
+
+                    <div class="card-header pb-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Total count of Mandates of referrals</h6>
+                        </div>
+
+                        <div class="card-body mt-0 p-0 row align-items-center" no-referrals-data>
+                            <div class="chart-pie col-6" id="referralsChartArea">
+                                <canvas id="referralsChart"></canvas>
+                            </div>
+                            <div class="small col-6">
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-referral-1>
+                                </div>
+<div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-referral-2>
+                                </div>
+<div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-referral-3>
+                                </div>
+<div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-referral-4>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Card Header - Dropdown  -->
+                        <!-- <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Conversion</h6>
+                        </div>
+
+                        <div class="card-body p-0 row align-items-center" no-data>
+                            <div class="chart-pie col-6" id="conversionChartArea">
+                                <canvas id="conversionChart"></canvas>
+                            </div>
+                            <div class="small col-6">
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-conversion-1>
+
+                                </div>
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-conversion-2>
+
+                                </div>
+                                <div class="mr-2 d-flex justify-content-between align-items-center" data-conversion-3>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Convrsion Stage</h6>
+                        </div>
+
+                        <div class="card-body p-0 row align-items-center" no-stage-data>
+                            <div class="chart-pie col-6" id="convrsionstageChartArea">
+                                <canvas id="convrsionstageChart"></canvas>
+                            </div>
+                            <div class="small col-6">
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-conversion-stage-1>
+
+                                </div>
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-conversion-stage-2>
+
+                                </div>
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-conversion-stage-3>
+
+                                </div>
+                                <div class="mr-2 d-flex justify-content-between align-items-center"
+                                    data-conversion-stage-4>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-header pb-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Total count of Mandates of referrals</h6>
+                        </div>
+
+                        <div class="card-body mt-4 p-0 row align-items-center" no-download-data>
+                            <div class="chart-pie col-6" id="downloadChartArea">
+                                <canvas id="downloadChart"></canvas>
+                            </div>
+                            <div class="small col-6">
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-download-1>
+
+                                </div>
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-download-2>
+
+                                </div>
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row position-relative">
+                <!-- loader here  -->
+                <div class="loader-wrapper card-loader">
+                    <div class="loader"></div>
+                </div>
+                <!-- ends here  -->
+                <!-- Area Chart -->
+                <div class="col-12 col-xl-6 col-lg-6">
+                    <div class="card graph-card mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Total rejected Loan application</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body p-0" no-brokerage-data>
+                            <div class="chart-area" id="brokerageChartArea">
+                                <canvas id="brokerageChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="col-12 col-xl-6 col-lg-6">
+                    <div class="card graph-card mb-4">
+                        <div class="card-header pb-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Total successful Loan application</h6>
+                            <div class=" text-center small">
+                            </div>
+                        
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body p-0" no-lead-data>
+                            <div class="chart-area" id="totalChartArea">
+                                <canvas id="totalChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-none">
+                <div class="col-12 col-xl-4 col-lg-4">
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+                        <div class="card-header py-3 px-0">
+                            <h6 class="m-0 font-weight-bold text-primary"> rmj by Brokerage</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Brokerage</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="count">1</span></td>
+                                            <td> ₹ 8,239</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="count">2</span></td>
+                                            <td> ₹ 8,239</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="count">3</span></td>
+                                            <td> ₹ 8,239</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-4 col-lg-4">
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+                        <div class="card-header py-3 px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">rmj by KYC</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>KYC</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="count">1</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="count">2</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="count">3</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-4 col-lg-4">
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+                        <div class="card-header py-3 px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">rmj by Referrals</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Referrals</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="count">1</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="count">2</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="count">3</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <!-- <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer> -->
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+<!-- Leads Modal-->
+<div class="modal fade" id="leadModal" tabindex="-1" role="dialog" aria-labelledby="leadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leadModalLabel">Referrals</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <!-- <div class="d-flex justify-content-end mb-3">
+                        <button type="button" name="" id="leadsModalBtn" class="btn info-btn mr-3" data-toggle="modal"
+                            data-target="#leadsModal"> <span>
+                                <i class="fa fa-plus" aria-hidden="true"></i> </span> Add Leads</button>
+
+                        <select class="w-auto custom-select" name="day-filter" id="day-filter">
+                            <option selected disabled
+                                data-display="<i class='fa fa-filter' aria-hidden='true'></i> Filter">Filter</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="60">Last 60 days</option>
+                            <option value="90">Last 90 days</option>
+
+                        </select>
+                    </div> -->
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive" style="height: 30rem;overflow-y: scroll;">
+                    <table class="table" id="" width="100%" cellspacing="0">
+                        <thead class="bg-beige">
+                            <tr>
+                                <th>Name</th>
+                                <th>Email Id</th>
+                                <th>Mobile No.</th>
+                                <th>date Created</th>
+                                <th class="text-center">steps</th>
+                                <th class="text-center">remind</th>
+                            </tr>
+                        </thead>
+                        <tbody data-leads-list>
+
+                        </tbody>
+                    </table>
+                    <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                        <p class="h6 text-center py-5">No Data Available</p>
+                    </div>
+                </div>
+
+                <p id="pagination-here" class="d-flex justify-content-center"></p>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ends here -->
+<!-- accounts here -->
+<div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="leadModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leadModalLabel">Total Accounts Opened</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-beige">
+                            <tr>
+                                <th>Name</th>
+                                <th>Email Id</th>
+                                <th>Mobile No.</th>
+                                <th>Channel</th>
+                                <th class="text-center">Trade active</th>
+                            </tr>
+                        </thead>
+                        <tbody data-activated-list>
+
+                        </tbody>
+
+                    </table>
+                    <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                        <p class="h6 text-center py-5">No Data Available</p>
+                    </div>
+
+
+                </div>
+                <p id="pagination-here" class="d-flex justify-content-center"></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- ends here -->
+<!-- pending leads here -->
+<div class="modal fade" id="pendingModal" tabindex="-1" role="dialog" aria-labelledby="leadModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leadModalLabel">Total Account Opened</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <!-- <div class="d-flex justify-content-end mb-3">
+                        <button type="button" name="" id="leadsModalBtn" class="btn info-btn mr-3" data-toggle="modal"
+                            data-target="#leadsModal"> <span>
+                                <i class="fa fa-plus" aria-hidden="true"></i> </span> Add Leads</button>
+                        <select class="w-auto custom-select" name="day-filter" id="day-filter">
+                            <option selected disabled
+                                data-display="<i class='fa fa-filter' aria-hidden='true'></i> Filter">Filter</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="60">Last 60 days</option>
+                            <option value="90">Last 90 days</option>
+
+                        </select>
+                    </div> -->
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive" style="height: 30rem;overflow-y: scroll;">
+                    <table class="table" id="" width="100%" cellspacing="0">
+                        <thead class="bg-beige">
+                            <tr>
+                                <th>Name</th>
+                                <th>Email Id</th>
+                                <th>Mobile No.</th>
+                                <th>date Created</th>
+                                <th class="text-center">steps</th>
+                                <th class="text-center">remind</th>
+                            </tr>
+                        </thead>
+                        <tbody data-leads-list>
+
+                        </tbody>
+                    </table>
+                    <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                        <p class="h6 text-center py-5">No Data Available</p>
+                    </div>
+                </div>
+
+                <p id="pagination-here" class="d-flex justify-content-center"></p>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- ends here -->
+<!-- total app downloads here -->
+<div class="modal fade" id="downloadsModal" tabindex="-1" role="dialog" aria-labelledby="leadModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leadModalLabel">Total Account Opened</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <!-- <div class="d-flex justify-content-end mb-3">
+                        <button type="button" name="" id="leadsModalBtn" class="btn info-btn mr-3" data-toggle="modal"
+                            data-target="#leadsModal"> <span>
+                                <i class="fa fa-plus" aria-hidden="true"></i> </span> Add Leads</button>
+                        <select class="w-auto custom-select" name="day-filter" id="day-filter">
+                            <option selected disabled
+                                data-display="<i class='fa fa-filter' aria-hidden='true'></i> Filter">Filter</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="60">Last 60 days</option>
+                            <option value="90">Last 90 days</option>
+
+                        </select>
+                    </div> -->
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive" style="height: 30rem;overflow-y: scroll;">
+                    <table class="table" id="" width="100%" cellspacing="0">
+                        <thead class="bg-beige">
+                            <tr>
+                                <th>Name</th>
+                                <th>Email Id</th>
+                                <th>Mobile No.</th>
+                                <th>date Created</th>
+                                <th class="text-center">steps</th>
+                                <th class="text-center">remind</th>
+                            </tr>
+                        </thead>
+                        <tbody data-leads-list>
+
+                        </tbody>
+                    </table>
+                    <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                        <p class="h6 text-center py-5">No Data Available</p>
+                    </div>
+                </div>
+
+                <p id="pagination-here" class="d-flex justify-content-center"></p>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- ends here -->
+{% endblock %}
+{% block extra_footer_script %}
+
+<!-- Page level plugins -->
+<script src="{{static('dashboard/vendor/chart.js/Chart.min.js')}}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{static('dashboard/js/demo/chart-area-demo.js')}}"></script>
+<script src="{{static('dashboard/js/demo/chart-pie-demo.js')}}"></script>
+
+<script src="{{static('dashboard/js/integration/rmj-overview.js')}}"></script>
+<script src="{{static('dashboard/js/integration/rmj-overviewDateRange.js')}}"></script>
+<!-- <script src="{{static('dashboard/js/integration/activated.js')}}"></script> -->
+
+<script src="https://cdn.rawgit.com/botmonster/jquery-bootpag/master/lib/jquery.bootpag.min.js"></script>
+<!-- <script src="{{static('dashboard/js/integration/rmj-leads.js')}}"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    //  $('.days-select').niceSelect();
+    $('.custom-select').niceSelect();
+   // $('.download-select').niceSelect();
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,71 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+a{
+    color: $theme-orange;
+    &:hover{
+        color: $theme-orange;
+    }
+}
+.black-color{
+    color: $black;
+}
+.primary-color{
+    color: $theme-orange;
+}
+.primary-bg{
+    background-color: $theme-orange;
+}
+.secondary-color{
+    color: $theme-gray;
+}
+.theme-bg-gray{
+    background: $theme-bg-gray;
+}
+.secondary-bg{
+    background-color: $theme-gray;
+}
+.gradient-bg{
+    background: $theme-gradient;
+}
+.gradient-btn{
+    background: $theme-gradient;
+    border-radius: 12px;
+    color: #fff;
+    width: 100%;
+    padding: 12px 0;
+    &:hover{
+        color: #fff;
+    }
+}
+
+.gradient-btn-white{
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px 4rem;
+    &:hover{
+        background: $theme-gradient;
+        color: #fff;
+    }
+}
+.modal{
+    .close{
+        background: transparent;    
+        border: none;
+        outline: none;
+        position: absolute;
+        right: 20px;
+        top: 10px;
+    }
+    .modal-dialog {
+        max-width: 800px;
+        .modal-content{
+            border-radius: 25px;
+        }
+    }
+}

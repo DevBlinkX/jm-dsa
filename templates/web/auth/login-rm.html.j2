@@ -1,0 +1,153 @@
+{%extends 'web/base.html.j2'%}
+{% block title %} Login | Blinkx{% endblock %}
+{% block content %}
+<!-- main -->
+<style>
+  #otphelp {
+    font-size: 16px;
+  }
+</style>
+
+<main class="auth-page login-page m-4" id="">
+
+  <!-- banner -->
+  <section class="banner-section">
+    <div class="container">
+      <div class="row theme-bg-gray py-3 position-relative border-radious-10 align-items-center">
+        <div class="col-md-12 text-center">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="d-md-none mb-3 logo-mob">
+        </div>
+        <div class="col-12 col-md-4">
+          <!-- sidebar -->
+          <div class="auth-sidebar">
+            <div class="gradient-bg">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="top-left">
+              <img src="{{static('assets/images/icons/s1.png')}}" alt="dot" class="top-right">
+              <img src="{{static('assets/images/icons/s2.png')}}" alt="dot" class="bottom-left">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="bottom-right">
+              <div class="content-sidebar">
+                <h1>Login with RM program</h1>
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- sidebar -->
+
+
+        <div class="col-12 col-md-6">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="logo-top d-none d-md-block">
+          <div class="p-md-5 mt-5">
+            <div>
+              <h3>Login with RM program</h3>
+              <p class="secondary-color">We will send you a one-time password to this email id</p>
+            </div>
+            <form data-login-rm-form method="post" action="/api/send/otp/">
+              <div class="mb-3">
+                <div class="form-group mt-4">
+                  <input name="email" type="email" id="email" class="form-control" data-email-value
+                    aria-describedby="data-email-error" required>
+                  <label class="form-control-placeholder" for="email">Enter Email ID</label>
+                  <div data-email-error class="form-text text-danger error">Enter Your Email ID</div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary gradient-btn">Get OTP</button>
+            </form>
+            <p class="mt-4">Not Registered? <a href="{{url ('select-user')}}">SignUp</a></p>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    </div>
+  </section>
+
+
+  <!-- banner end-->
+
+</main>
+<main class="auth-page otp-page m-4 hidden">
+
+  <!-- banner -->
+  <section class="banner-section">
+    <div class="container">
+      <div class="row theme-bg-gray py-3 position-relative border-radious-10 align-items-center">
+        <div class="col-md-12 text-center">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="d-md-none mb-3">
+        </div>
+        <div class="col-12 col-md-4">
+          <!-- sidebar -->
+          <div class="auth-sidebar">
+            <div class="gradient-bg">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="top-left">
+              <img src="{{static('assets/images/icons/s1.png')}}" alt="dot" class="top-right">
+              <img src="{{static('assets/images/icons/s2.png')}}" alt="dot" class="bottom-left">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="bottom-right">
+              <div class="content-sidebar">
+                <h1>OTP Verification with RM program</h1>
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <!-- sidebar -->
+        </div>
+
+        <div class="col-12 col-md-6">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="logo-top d-none d-md-block">
+          <div class="p-md-5 mt-5">
+            <div>
+              <h3>OTP Verification with RM program</h3>
+              <p class="secondary-color">Enter the OTP send to <span class="primary-color getLoginId"></span></p>
+            </div>
+            <form action="/api/login/otp/" class="otp-form" data-otp-rm-form>
+              <input type="hidden" name="email" id="eEmailId">
+              
+              <div class="d-flex justify-content-start position-relative my-4">
+                <input class="otp otp-1" type="text" oninput='digitValidate(this)' onkeyup='tabChange(1)' maxlength=1
+                  required>
+                <input class="otp otp-2" type="text" oninput='digitValidate(this)' onkeyup='tabChange(2)' maxlength=1
+                  required>
+                <input class="otp otp-3" type="text" oninput='digitValidate(this)' onkeyup='tabChange(3)' maxlength=1
+                  required>
+                <input class="otp otp-4" type="text" oninput='digitValidate(this)' onkeyup='tabChange(4)' maxlength=1
+                  required>
+                <input class="otp otp-5" type="text" oninput='digitValidate(this)' onkeyup='tabChange(5)' maxlength=1
+                  required>
+                <input class="otp otp-6" type="text" oninput='digitValidate(this)' onkeyup='tabChange(6)' maxlength=1
+                  required>
+
+              </div>
+              <div id="otpHelp" class="form-text text-danger error mb-3">Invalid Otp</div>
+              <button type="submit" class="btn btn-primary gradient-btn w-auto px-5">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- banner end-->
+
+</main>
+<!-- main end -->
+{% endblock %}
+{% block extra_footer_script %}
+  <script src="{{static('assets/js/auth_api/login-rm.js')}}"></script> 
+<!-- otp input jump script -->
+<script>
+  let digitValidate = function (ele) {
+    console.log(ele.value);
+    ele.value = ele.value.replace(/[^0-9]/g, '');
+  }
+
+  let tabChange = function (val) {
+    let ele = document.querySelectorAll('.otp-form .otp');
+    if (ele[val - 1].value != '') {
+      ele[val].focus();
+    } else if (ele[val - 1].value == '') {
+      ele[val - 2].focus()
+    }
+  }
+
+</script>
+{% endblock %}

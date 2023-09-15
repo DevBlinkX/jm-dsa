@@ -1,0 +1,705 @@
+{%extends 'web/dsa-base-dashboard.html.j2'%}
+{% block title %} Knowledge Center | Blinkx{% endblock %}
+{%block custom_css%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    [data-empty-category] {
+        display: none;
+    }
+
+    [data-empty-category]:first-child {
+        display: block;
+    }
+    
+    .search-input {
+        padding: 0.4rem 2.4rem !important;
+        height: 50px !important;
+        border: 1px solid #d9d9d9;
+        box-shadow: none;
+        margin-bottom: 24px;
+        width: 100%;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 26px;
+        top: 19px;
+    }
+
+    .insight-grid-wrapper {
+        max-height: 781px;
+        overflow: hidden;
+    }
+
+    .insight-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 24px;
+        grid-row-gap: 24px;
+        overflow: hidden;
+    }
+
+    .trending-grid,
+    .tab-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(1, 1fr);
+        grid-column-gap: 32px;
+        grid-row-gap: 24px;
+    }
+
+    .card .img-wrapper img {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #d9d9d9;
+        /* -webkit-box-shadow: 1px 1px 16px 0px rgba(168, 168, 168, 0.4);
+        -moz-box-shadow: 1px 1px 16px 0px rgba(168, 168, 168, 0.4);
+        box-shadow: 1px 1px 16px 0px rgba(168, 168, 168, 0.4); */
+        cursor: pointer;
+    }
+
+    .card .text-wrapper {
+        padding: 1.5rem;
+    }
+
+    .category-wrapper {
+        width: fit-content;
+        padding: 2px 12px;
+        border-radius: 24px;
+        background: #fcf4f8;
+    }
+
+    .category {
+        width: fit-content;
+        padding: 2px 12px;
+        border-radius: 12px;
+        background: linear-gradient(103.72deg, #EC590C -20.3%, #C027D2 138.65%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+
+    .card .heading {
+        color: black;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 27px;
+    }
+
+    .card .desc {
+        line-height: 1.8;
+    }
+
+    .card .date-wrapper {
+        margin-top: 24px;
+    }
+
+    .card .arrow {
+        height: 40px;
+        width: 40px;
+    }
+
+    .card:hover {
+        background: rgb(209, 58, 138);
+        background: linear-gradient(0deg, rgba(209, 58, 138, 1) 2%, rgba(212, 61, 122, 1) 50%, rgba(218, 70, 96, 1) 93%);
+        color: white;
+    }
+
+    .card:hover p {
+        color: #fff;
+    }
+
+    .card:hover .heading {
+        color: white;
+    }
+
+    .card:hover .arrow path,
+    .card:hover .arrow circle {
+        stroke: white;
+    }
+
+    .category-active {
+        color: white;
+    }
+
+    .font-size-15 {
+        font-size: 15px;
+    }
+
+    .orange-color {
+        color: #EC590C;
+    }
+
+    .tags-wrapper {
+        border: 1px solid #d9d9d9;
+        border-radius: 12px;
+        padding: 18px;
+        height: 23.3rem;
+        overflow-y: scroll;
+    }
+
+    .heading {
+        color: black;
+        font-weight: 600;
+        font-size: 28px;
+    }
+
+    .tags-wrapper .tags {
+        border: 1px solid #d9d9d9;
+        border-radius: 24px;
+        margin: 10px;
+        padding: 10px;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .tags-wrapper .tags.active{
+        background: linear-gradient(103.72deg, #EC590C -20.3%, #C027D2 138.65%);
+        color: #fff !important;
+    }
+
+    .nav-tabs .nav-link {
+        border: none;
+    }
+
+    .nav-tabs .nav-link:hover,
+    .nav-tabs .nav-link:focus {
+        border-color: white;
+    }
+
+    .nav-tabs .nav-link.active {
+        /* border-bottom: 3px solid #EC590C; */
+        /* color: #ec590c; */
+        background: linear-gradient(to right, #EC590C 0%, #C027D2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+    }
+
+ .nav-tabs .nav-link.active:before {
+        content: '';
+        /* border-bottom: 3px solid #EC590C; */
+        /* color: #ec590c; */
+        background: linear-gradient(to right, #EC590C 0%, #C027D2 100%);
+        /* -webkit-background-clip: text; */
+        -webkit-text-fill-color: transparent;
+        display: block;
+        position: absolute;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .tab-section a.nav-link {
+        color: #6e707e;
+    }
+
+    @media screen and (max-width:768px) {
+        .card .img-wrapper img{
+            height: auto;
+        }
+        .custom-scroll{
+            height: 100vh;
+            overflow-y: scroll;
+        }
+.tags-wrapper {
+    margin-top: 1rem;
+    max-height: 23.3rem;
+    height: auto;
+}
+[data-category-list].nav{
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+    }
+        .insight-grid-wrapper {
+            max-height: 100%;
+            overflow: hidden;
+        }
+
+        .insight-grid {
+            grid-template-columns: repeat(1, 1fr);
+            grid-template-rows: repeat(1, 1fr);
+        }
+
+        .trending-grid,
+        .tab-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+</style>
+{%endblock%}
+{% block content %}
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5 justify-content-between">
+
+            <!-- Sidebar Toggle (Topbar) -->
+<!-- deleted -->
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">Knowledge Center</p>
+
+            </div>
+            {%include 'web/dashboard/_partials/dsa/header.html.j2'%}
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <div class="heading w-100 mb-3">Insights</div>
+            <div class="row">
+                <div class="col-md-8 insight-grid-wrapper">
+                    <!-- loader here  -->
+                    <div class="loader-wrapper card-loader">
+                        <div class="loader"></div>
+                    </div>
+                    <!-- ends here  -->
+                    <div data-empty-insights class="card w-100 py-4" style="display: none;">
+                        <p class="h6 text-center py-5">No Data available</p>
+                    </div>
+                    <div class="insight-grid" data-knowldge-cards>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <!--<div class="d-flex search-wrapper">
+                        <i class="fa fa-search search-icon" aria-hidden="true"></i>
+                        <input class="search-input" type="text" placeholder="Search...">
+                    </div>-->
+                    <div class="tags-wrapper">
+                        <div class="heading mb-3">Tags</div>
+                        <div data-empty-tags style="display: none;">
+                            <p class="h6 text-center py-4">No tags available</p>
+                        </div>
+                        <div class="" data-tags>
+
+                        </div>
+                    </div>
+
+                    <div class="tags-wrapper mt-4">
+                        <div class="heading mb-3">Keywords</div>
+                        <div data-empty-Keywords style="display: none;">
+                            <p class="h6 text-center py-4">No Keywords available</p>
+                        </div>
+                        <div class="" data-Keywords>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-12">
+                    <div class="heading my-4">Trending</div>
+                </div>
+                <div data-empty-trending style="display: none;" class="card w-100 mx-3">
+                    <p class="h6 text-center py-5 px-4">No Trending Data Available</p>
+                </div>
+                <div class="trending-grid w-100 px-3" data-trending-cards>
+
+                </div>
+
+                <div class="col-12">
+                    <div class="my-4 tab-section">
+                        <ul class="nav nav-tabs" data-category-list>
+
+                        </ul>
+
+                        <div class="tab-content" data-category-tabs>
+                            <!-- <div class="tab-pane fade show active" id="fishoes" role="tabpanel"
+                            aria-labelledby="fishoes-tab">
+                            <div class="tab-grid my-4">
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="firom" role="tabpanel" aria-labelledby="firom-tab">
+                            <div class="tab-grid my-4">
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="gayan" role="tabpanel" aria-labelledby="gayan-tab">
+                            <div class="tab-grid my-4">
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card">
+                                    <div class="img-wrapper">
+                                        <a href=""><img src="{{static('assets/images/bg.jpeg')}}" alt="dot"
+                                                class="top-right"></a>
+                                    </div>
+                                    <div class="text-wrapper">
+                                        <div class="category-wrapper">
+                                            <div class="category">Category</div>
+                                        </div>
+                                        <div class="heading my-3 text-capitalize">
+                                            <a href="" class="heading">Lorem ipsum dolor sit amet consectetur
+                                                adipit, magni.</a>
+                                        </div>
+                                        <div class="desc font-size-15">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, earum?
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center date-wrapper">
+                                            <div class="date font-size-15">
+                                                date
+                                            </div>
+
+                                            <a href=""><svg class="arrow" width="25" height="14" viewBox="0 0 25 14"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                                        fill="#EC590C" stroke="#EC590C" />
+                                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                                </svg></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <p id="pagination-here" class="d-flex justify-content-center"></p>
+        </div>
+
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <!-- <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer> -->
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+{% endblock %}
+{% block extra_footer_script %}
+<script src="https://cdn.rawgit.com/botmonster/jquery-bootpag/master/lib/jquery.bootpag.min.js"></script>
+<script src="{{static('dashboard/js/integration/knowledge-center.js')}}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+setTimeout(function () {
+            $("[data-tags] span").on("click", function () {
+                var tempTag = $("<input>");
+                $("body").append(tempTag);
+                tempTag.val($(this).text()).select();
+                document.execCommand("copy");
+                toastr.success('Copied!!');
+                tempTag.remove();
+                $('[data-tags] span, [data-keywords] span').removeClass('active');
+                $(this).addClass('active');
+            })
+
+    $("[data-keywords] span").on("click", function () {
+                var tempkeywords = $("<input>");
+                $("body").append(tempkeywords);
+                tempkeywords.val($(this).text()).select();
+                document.execCommand("copy");
+                toastr.success('Copied!!');
+                tempkeywords.remove();
+                $('[data-keywords] span, [data-tags] span').removeClass('active');
+                $(this).addClass('active');
+            })
+}, 1200);
+</script>
+{% endblock %}

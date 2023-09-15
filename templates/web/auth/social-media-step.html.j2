@@ -1,0 +1,157 @@
+{%extends 'web/base.html.j2'%}
+{% block title %} Social Media | Blinkx{% endblock %}
+{% block content %}
+<!-- main -->
+<style>
+  .label-active {
+    font-size: 80%;
+    transform: translate3d(0, -32%, 0);
+    color: #EC590C;
+    opacity: 1;
+  }
+</style>
+<main class="auth-page social-media-page m-4">
+
+  <!-- banner -->
+  <section class="banner-section">
+    <div class="container">
+      <div class="row theme-bg-gray py-3 position-relative border-radious-10">
+        <div class="col-12 col-md-5 col-lg-4">
+          <!-- sidebar -->
+          <div class="auth-sidebar">
+            <div class="gradient-bg">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="top-left">
+              <img src="{{static('assets/images/icons/s1.png')}}" alt="dot" class="top-right">
+              <img src="{{static('assets/images/icons/s2.png')}}" alt="dot" class="bottom-left">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="bottom-right">
+              <div class="content-sidebar">
+                <h1>Select Social Meadia Platform</h1>
+                <!-- <p class="secondary-color">“Lorem Ipsum is simply dummy text of the printing and typesetting industry
+                </p> -->
+              </div>
+            </div>
+          </div>
+          <!-- sidebar -->
+        </div>
+
+        <div class="col-12 col-md-7 col-lg-8">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="logo-top">
+          <div class="p-md-5 mt-5">
+            <div class="mb-4">
+              <h3>Select Social Meadia Platform</h3>
+              <!-- <p class="secondary-color">Lorem Ipsum is simply dummy text of the printing.</p> -->
+            </div>
+
+            <div class="row">
+              <div class="col-6 col-md-3">
+                <a href="#" class="social-card" id="facebook-tab" data-social="Facebook">
+                  <div>
+                    <img src="{{static('assets/images/icons/facebook.png')}}" alt="facebook">
+                    <p>Verify Facebook account</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-6 col-md-3">
+                <a href="#" class="social-card" id="instagram-tab" data-social="Instagram">
+                  <div>
+                    <img src="{{static('assets/images/icons/instagram.png')}}" alt="instagram">
+                    <p>Verify Instagram account</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-6 col-md-3">
+                <a href="#" class="social-card" id="youtube-tab" data-social="YouTube">
+                  <div>
+                    <img src="{{static('assets/images/icons/youtube.png')}}" alt="youtube">
+                    <p>Verify YouTube account</p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-6 col-md-3">
+                <a href="#" class="social-card" data-other-platform-tab>
+                  <div>
+                    <img src="{{static('assets/images/icons/others.png')}}" alt="others">
+                    <p>Others</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <form action="/api/channel/save/" method="post" class="mt-4" data-other-platform>
+              <div class="row">
+                <div class="col-12 col-md-4">
+                  <div class="form-group">
+                    <label class="form-control-placeholder account-type-label" for="account_type">Select Platform
+                      *</label>
+                    <select name="account_type" class="form-control" id="socialPlatform">
+                      <option value="Facebook">Facebook</option>
+                      <option value="Instagram">Instagram</option>
+                      <option value="Youtube">Youtube</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="mb-3 form-group">
+                    <input type="text" id="account" class="form-control" aria-describedby="accountHelp" required>
+                    <label class="form-control-placeholder" for="account">Enter Your Account *</label>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="mb-3 form-group">
+                    <input type="number" id="followers" class="form-control" aria-describedby="followersHelp" required>
+                    <label class="form-control-placeholder" for="followers">Your Followers*</label>
+                  </div>
+                </div>
+
+              </div>
+              <button type="submit" class="btn btn-primary gradient-btn">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- banner end-->
+
+</main>
+<!-- main end -->
+
+
+<!-- modal -->
+ <!-- data-bs-toggle="modal" data-bs-target="#exampleModal" -->
+<div class="modal fade" id="verify_demat_account" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center mt-4 py-5 px-5">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><img
+            src="{{static('assets/images/icons/cross.svg')}}" alt="close modal"></button>
+        <img src="{{static('assets/images/modal.svg')}}" width="150" alt="open dmat account">
+        <h4 class="my-3 pt-4">Lorem Ipsum is simply dummy text</h4>
+        <p class="secondary-color small px-md-5 mb-4">Lorem Ipsum has been the industry's standard dummy text ever since
+          the 1500s, when an unknown printer took a galley .</p>
+        <a href="/thankyou" class="btn btn-primary gradient-btn w-auto px-5">Open Demat Account</a>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal end-->
+
+<div class="modal fade" id="back_to_other_account" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center mt-4 py-5 px-5">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><img
+            src="{{static('assets/images/icons/cross.svg')}}" alt="close modal"></button>
+        <img src="{{static('assets/images/modal.svg')}}" width="150" alt="open dmat account">
+        <h4 class="my-3 pt-4">Lorem Ipsum is simply dummy text</h4>
+        <p class="secondary-color small px-5 mb-4">Lorem Ipsum has been the industry's standard dummy text ever since
+          the 1500s, when an unknown printer took a galley .</p>
+        <a href="/" class="btn btn-primary gradient-btn w-auto px-5">Back To Home</a>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal end-->
+{% endblock %}

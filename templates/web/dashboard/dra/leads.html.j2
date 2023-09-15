@@ -1,0 +1,359 @@
+{%extends 'web/dra-base-dashboard.html.j2'%}
+{% block title %} Referrals | Blinkx{% endblock %}
+{%block custom_css%}
+<style>
+    
+    #leadsModal .modal-dialog {
+        max-width: 600px;
+
+    }
+
+    h5#leadsModalLabel {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1f1f1f;
+    }
+
+    #leadsModal .close {
+        top: 50px;
+        right: 35px;
+        background: #fff3ee;
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+
+    #leadsModal .modal-body {
+        padding: 0rem 1.6rem;
+        padding-bottom: 2rem;
+    }
+
+    #leadsModal .modal-header {
+        padding: 1rem 1.6rem;
+        padding-top: 2rem;
+    }
+
+    .form-check-input {
+        height: auto !important;
+    }
+</style>
+{%endblock%}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5 justify-content-between">
+
+             <!-- Sidebar Toggle (Topbar) -->
+<!-- deleted -->
+
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">Referrals</p>
+
+            </div>
+            {%include 'web/dashboard/_partials/dra/header.html.j2'%}
+
+
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+
+
+            <div class="row">
+                <div class="col-12 col-xl-12 col-lg-12">
+                    <div class="d-md-flex justify-content-end mb-3">
+
+                        <div data-search-lead class="search-form mb-md-0 mb-3">
+                                <div class="input-group">
+                                    <div class="form-outline w-xs-85">
+                                        <input type="search" placeholder="Search..." class="form-control search-input" />
+                                    </div>
+                                    <button type="submit" class="btn gradient-btn w-auto px-3">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                        </div>
+                        <div class="search-form ml-md-3"><i class='fa fa-calendar calander-icon' aria-hidden='true'></i> <input class="custom_date search-input form-control px-1 bg-white" type="text" placeholder="Custom Date Select.." data-id="confirmDate" readonly="readonly"></div>
+
+                        {# <button type="button" name="" id="leadsModalBtn" class="btn info-btn mx-3" data-toggle="modal"
+                            data-target="#leadsModal"> <span>
+                                <i class="fa fa-plus" aria-hidden="true"></i> </span> Add Lead</button> #}
+                        
+                        <select class="w-auto custom-select" name="day-filter" id="day-filter">
+                            <option selected disabled
+                                data-display="<i class='fa fa-filter' aria-hidden='true'></i> Filter">Filter</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="60">Last 60 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                    </div>
+                    <div class="bg-light px-3 py-2 mb-2 rounded d-md-none d-flex align-items-center justify-content-between w-100">
+                        <p class="mb-0"> Swipe to scroll horizontally</p>
+                        <img src="{{static('dashboard/img/swipe.png')}}" width="40" class="img-fluid swipe-icon" alt="swipe">
+                    </div>
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4 position-relative">
+                        <!-- loader here  
+                        <div class="loader-wrapper card-loader">
+                            <div class="loader"></div>
+                        </div>
+                         ends here  -->
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="bg-beige">
+                                        <tr>
+                                            <th>Sr No.</th>
+                                            <th>Name</th>
+                                            <th>Email Id</th>
+                                            <th>Mobile No.</th>
+                                            <th>date Created</th>
+                                            <th class="text-center">steps</th>
+                                            <th class="text-center">remind</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-leads-list>
+
+                                    </tbody>
+                                </table>
+                                <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                                    <p class="h6 text-center py-5">No Data Available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ends here -->
+                    <div class="bg-light px-3 py-2 mb-2 rounded d-md-none d-flex align-items-center justify-content-between">
+                        <p class="mb-0"> Swipe to scroll horizontally</p>
+                        <img src="{{static('dashboard/img/swipe.png')}}" width="40" class="img-fluid swipe-icon" alt="swipe">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <p id="pagination-here" class="d-flex justify-content-center"></p>
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <!-- <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer> -->
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+
+<!-- Logout Modal-->
+<div class="modal fade" id="leadsModal" tabindex="-1" role="dialog" aria-labelledby="leadsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leadsModalLabel">Add Lead</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                <form action="/api/dra/add-leads/" method="post" data-add-lead>
+                    <div class="form-group mt-4">
+                        <input name="name" type="text" id="name" class="form-control" data-lead-name-value
+                            aria-describedby="nameHelp" required>
+                        <label class="form-control-placeholder" for="name">Your Name*</label>
+                        <!-- <div id="nameHelp" class="form-text text-danger">Enter Your Name</div> -->
+                    </div>
+                    <div class="form-group mt-4">
+                        <input name="email" type="email" id="email" class="form-control" data-lead-email-value
+                            aria-describedby="data-email-error" required>
+                        <label class="form-control-placeholder" for="email">Enter Email Id*</label>
+                        <!-- <div data-email-error class="form-text text-danger">Enter Your Email Id</div> -->
+                    </div>
+                    <div class="form-group mt-4">
+                        <input name="mobile" pattern="[789][0-9]{9}" title="Please enter valid mobile number" type="tel"
+                            min="1" max="10" maxlength="10" type="tel" id="mobile" class="form-control"
+                            data-lead-mobile-value aria-describedby="data-mobile-error" required>
+                        <label class="form-control-placeholder" for="mobile">Enter Mobile Number</label>
+                        <!-- <div data-mobile-error class="form-text text-danger">Enter Your Mobile Number</div> -->
+                    </div>
+                    <div id="errorMsg" class="form-text text-danger mb-2 small"></div>
+                    <button class="btn gradient-btn" type="submit">
+                        Submit
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_footer_script %}
+<script src="https://cdn.rawgit.com/botmonster/jquery-bootpag/master/lib/jquery.bootpag.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+    integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="{{static('dashboard/js/integration/dra-leads.js')}}"></script>
+<script>
+    $(".main-loader").show();
+    
+    $('body').on('click', '.dashboard-btn', function (e) {
+        $(".main-loader").show();
+        var mobile = $(event.target).closest('.table-row').children('.mobile')[0].innerHTML;
+        var email = $(event.target).closest('.table-row').children('.email')[0].innerHTML;
+        var name = $(event.target).closest('.table-row').children('.name')[0].innerHTML;
+        var firstName = name.split(' ').slice(0, -1).join(' ');
+        var lastName = name.split(' ').slice(-1).join(' ');
+        console.log('mobile is', mobile, email, firstName + "and" + lastName);
+        $.ajax({
+            type: "POST",
+            url: '/api/dra/leads/remind/',
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("access-token"),
+            },
+            data: {
+                mobile: mobile,
+                email: email,
+                first_name: firstName,
+                last_name: lastName,
+            },
+
+            success: function (data) {
+                $(".main-loader").hide();
+                toastr.success('Email and whatsapp message sent successfully to the refreee');
+            },
+            error: function (err) {
+                $(".main-loader").hide();
+                toastr.error('Something went wrong');
+            },
+        });
+
+    });
+
+
+</script>
+
+
+
+<!-- add lead -->
+<!-- data-add-lead -->
+<script>
+        $("[data-search-lead] button").on("click", function (e) {
+            var searchVal = $('.search-input').val();
+            console.log(searchVal)
+            window.location = '/dra-leads/?name='+searchVal;
+        });
+
+
+    $(document).ready(function () {
+        $("[data-add-lead]").on("submit", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(".main-loader").show();
+            var formdata = new FormData($(this)[0]);
+            var href = $(this).attr("action");
+            $.ajax({
+                type: "POST",
+                url: href,
+                data: formdata,
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("access-token"),
+                },
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $(".main-loader").show();
+                    if (data.success === false) {
+                        $(".main-loader").hide();
+                        $(this).closest('form').find("input").val("");
+                    } else {
+                        setTimeout(function () {
+                            $(".main-loader").hide();
+                        }, 2000);
+                        $('[data-add-lead]').closest('form').find("input").val("");
+                        $('#leadsModal').modal('hide');
+
+                        $(".main-loader").show();
+                        $.ajax({
+                            type: "GET",
+                            url: "/api/dra/leads/",
+                            dataType: "json",
+                            success: function (response) {
+                                $("[data-leads-list]").empty();
+                                $(".main-loader").hide();
+                        
+                                $.each(response.results, function (k, v) {
+                                    var sr = k+1;
+                                    var name = v.name;
+                                    var email = v.email;
+                                    var mobile_no = v.mobile_no;
+                                    var date_created = v.date_created;
+                                    var step = v.step;
+
+
+                                    $("[data-leads-list]").append(
+                                        "<tr class='table-row'><td>"+sr+"</td><td class='name'>" + name + "</td><td class='email'>" + email + "</td><td class='mobile'> " + mobile_no + "</td><td> " + date_created + "</td><td class='text-center'> " + step + " </td><td class='text-center'> <a href='#'class='dashboard-btn'>Remind</a> </td></tr>"
+                                    );
+                                });
+
+                                $(".card-loader").css("visibility", "hidden");
+                            },
+                            error: function (error) {
+                                // var error_data = JSON.parse(error.responseText);
+                                $(".main-loader").hide();
+                            },
+                        });
+
+                    }
+                },
+                error: function (error) {
+                    // var error_data = JSON.parse(error.responseText);
+                    $("#errorMsg").text('Bad Request');
+                    $(".main-loader").hide();
+                    $(this).closest('form').find("input").val("");
+                },
+
+            });
+        });
+    });
+
+//   $("#leadsModalBtn").on("click", function (e) {
+//     $(this).closest('form').find("input").val("");
+//     });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    //  $('.days-select').niceSelect();
+    $('.custom-select').niceSelect();
+</script>
+{% endblock %}

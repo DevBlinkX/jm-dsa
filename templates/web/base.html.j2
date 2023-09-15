@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% block head %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>{%block title%}Blinkx{%endblock%}</title>
+
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+    <!-- <link rel="apple-touch-icon" sizes="57x57" href="{{static('assets/images/favicons.ico/apple-icon-57x57.png')}}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{static('assets/images/favicons.ico/apple-icon-60x60.png')}}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{static('assets/images/favicons.ico/apple-icon-72x72.png')}}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{static('assets/images/favicons.ico/apple-icon-76x76.png')}}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{static('assets/images/favicons.ico/apple-icon-114x114.png')}}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{static('assets/images/favicons.ico/apple-icon-120x120.png')}}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{static('assets/images/favicons.ico/apple-icon-144x144.png')}}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{static('assets/images/favicons.ico/apple-icon-152x152.png')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{static('assets/images/favicons.ico/apple-icon-180x180.png')}}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{static('assets/images/favicons.ico/android-icon-192x192.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{static('assets/images/favicons.ico/favicons.ico-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{static('assets/images/favicons.ico/favicons.ico-96x96.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{static('assets/images/favicons.ico/favicons.ico-16x16.png')}}"> -->
+    <link rel="manifest" href="{{static('assets/images/favicons.ico/manifest.json')}}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{static('assets/images/favicons.ico/ms-icon-144x144.png')}}">
+    <meta name="theme-color" content="#ffffff">
+    <!-- new icon here -->
+    <link rel="icon" type="image/x-icon" href="{{static('assets/images/favicon.ico')}}">
+  
+  {%block extra_meta%}
+  <!--extra meta tags will come here-->
+  {%endblock%}
+  
+    <!-- main css -->
+    <link rel="stylesheet" href="{{static('assets/css/main.css')}}">
+
+    <!-- font family Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- body font -->
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karla&display=swap"> -->
+
+    <!-- owl carousel -->
+    <!-- <link rel="stylesheet" href="{{static('assets/css/vendor/owl.carousel.min.css')}}"> -->
+
+    <!-- canonical -->
+    <link rel="canonical" href="/" />
+
+    <!-- robots -->
+    <meta name="robots" content="noindex, nofollow">
+  {%endblock%}
+  {%block custom_css%}
+  {%endblock%}
+    <style>
+    html {
+        user-select: none;
+    }
+
+
+    @media (min-width:1365px) and (max-width:1368px){
+     body{
+        font-size: 11px !important;
+     }
+      
+    }
+    @media (min-width:1919px) and (max-width:1921px){
+      body{
+          font-size: 11px !important;
+      }
+      
+    }
+
+    @media print {
+        html,
+        body {
+            display: none;
+        }
+    }
+
+    </style>
+</head>
+
+
+<body class="body">
+  
+  <!-- loader -->
+  <div class="main-loader"><div class="box-loader"> 
+  <div class="loader-12"></div>
+</div></div>
+  <!-- loader end-->
+
+  {% block header %}
+  {#{%include 'web/_partials/header.html.j2'%} #}
+  {% endblock %}
+  
+  {% block content %} 
+  {% endblock %}
+
+  {% block footer %}
+  {#{%include 'web/_partials/footer.html.j2'%} #}
+  {% endblock %}
+  
+  <!-- JavaScript list -->
+  <script src="{{static('assets/js/jquery/jquery.min.js')}}"></script> <!-- jquery -->
+  <script src="{{static('assets/js/others/popper.min.js')}}"></script> <!-- popper -->
+  <script src="{{static('assets/js/bootstrap/bootstrap.min.js')}}"></script> <!-- bootstrap -->
+ 
+  {# <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script> #}
+
+  <!-- <script src="{{static('assets/js/others/owl.carousel.min.js')}}"></script>  -->
+  <!-- JavaScript list end -->
+  
+
+  <script src="{{static('assets/js/auth_api/signup.js')}}"></script> 
+  <script src="{{static('assets/js/custom.js')}}"></script> 
+
+{% block extra_footer_script %} {% endblock %}
+
+  <script>
+  document.addEventListener('keyup', (e) => {
+    if (e.key == 'PrintScreen') {
+        navigator.clipboard.writeText('');
+        alert('Screenshots disabled!');
+    }
+  });
+
+  /** TO DISABLE PRINTS WHIT CTRL+P **/
+  document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key == 'p') {
+          alert('This section is not allowed to print or export to PDF');
+          e.cancelBubble = true;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+      }
+  });
+       {# $(function() {
+            $(this).bind("contextmenu", function(e) {
+                e.preventDefault();
+            });
+        }); #}
+  </script>
+
+  </body>
+
+</html>

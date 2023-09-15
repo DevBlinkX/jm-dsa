@@ -1,0 +1,116 @@
+{%extends 'web/base.html.j2'%}
+{% block title %} Terms & conditions | Blinkx{% endblock %}
+{% block content %}
+<!-- main -->
+<main class="auth-page signup-page m-4">
+
+  <!-- banner -->
+  <section class="banner-section">
+    <div class="container">
+      <div class="row theme-bg-gray py-3 position-relative border-radious-10">
+        <div class="col-md-12 text-center">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="d-md-none mb-3 logo-mob">
+        </div>
+        <div class="col-12 col-md-5 col-lg-4">
+          <!-- sidebar -->
+          <div class="auth-sidebar">
+            <div class="gradient-bg">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="top-left">
+              <img src="{{static('assets/images/icons/s1.png')}}" alt="dot" class="top-right">
+              <img src="{{static('assets/images/icons/s2.png')}}" alt="dot" class="bottom-left">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="bottom-right">
+              <div class="content-sidebar">
+                <h1>Terms & conditions </h1>
+                <!-- <p>“Lorem Ipsum is simply dummy text of the printing and typesetting industry</p> -->
+              </div>
+            </div>
+          </div>
+          <!-- sidebar -->
+        </div>
+
+        <div class="col-12 col-md-7 col-lg-7">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="logo-top d-none d-md-block">
+          <div class="p-md-5 mt-5">
+            <div>
+              <h3>Remarks</h3>
+              <div class="tnc-height  ">
+                {% if request.user.incentive_perlead %}<p class="h6">Fixed processing fees: <span class="text-dark">₹{{request.user.incentive_perlead}}</span></p>{% endif %}
+                {% if request.user.brokerage_percentage %}<p class="h6">Processing fees %: <span class="text-dark">{{request.user.brokerage_percentage}}%</span></p>{% endif %}
+                {% if request.user.revenue_sharing_of_intrest %}<p class="h6">Revenue sharing % of Interest: <span class="text-dark">{{request.user.revenue_sharing_of_intrest}}%</span></p>{% endif %}
+
+                <ol class="px-3 mt-3">
+                 <li> The Digital Referral Associate(“Offer”) is being offered by Blinkx Services Ltd (“Blinkx”) to their  existing  clients  (“Refer-  rer”)  for  referring  prospects  (“Referee”)  to  set  up  Demat and/or Broking Account with it.</li>
+                <li> All Existing clients implies those who have demat or a trading account with Blinkx.</li>
+                <li> The DRA will get Payout for the Broking Account for 24 months from the activation date of the DRA account, e.g. Accounts opened in July 2022, will get benefit till June 2024.</li>
+                <li> This DRA Program is strictly for referring prospects who are not related to Blinkx and/or who doesn’t have Account with Blinkx.</li>
+                <li> Referee is an individual who has been referred for opening Account with Blinkx by the DRA.</li>
+                <li> If a DRA is being referred by two DRA, then the DRA who has referred first will be considered.</li>
+                <li> The mobile number of the DRA at the time of referral and opening of the Account should be the same.</li>
+                <li> The DRA should obtain consent of the person referred for providing his/her details.</li>
+                <li> Individual who are minors are not eligible for DRA program.</li>
+                <li> No Prepaid revenue will be counted for this offer.</li>
+                <li> All Leads entered through LSQ would only be considered Valid for this offer.</li>
+                <li> For accounts opened between July 1, 2022 & December 31, 2022, Payout for eligible DRA will be given in the 2nd week of February 2023.</li>
+                <li> The  aforementioned   Payout   announcements   applicable   to   both   the  Demat   and Broking accounts.</li>
+                <li> Recommendations of immediate family member including spouse, children, parents, and siblings under this offer will not be acceptable.</li>
+                <li> Falsely opening and closing of accounts to misuse this Offer will be disqualified.</li>
+                <li> Blinkx reserves the right to disqualify the referral account and withhold the Payout in case of any fraudulent and/or suspicious  activity  found  violating  SEBI  guidelines  and/or  for such other reasons which Blinkx decides at its sole discretion.</li>
+                <li> Execution of trades shall be governed as per the Terms and Conditions agreed at the time of account opening and as amended from time to time by the risk management policies and other internal policies of Blinkx.</li>
+                <li> Please note that by submitting the contact details, you are consenting and authorizing Blinkx to contact you and  send promotional communication even though you may be registered under National Do Not Call Registry established under the Telecom Unsolicited Commercial Communications Regulations, 2007 or registered or may  register  under  the National Customer Preference Register established under new regulation viz. the Telecom Commercial Communications Customer Preference Regulations, 2010.</li>
+                <li> The Company will not be liable for any deficiency/defect in any product or delay, if any, in provision of service by the concerned service provider subsequent to delivery of such prizes.</li>
+                <li> Blinkx reserves the rights to withdraw or change this offer any time before the validity period as mentioned above and the same shall be communicated through e-mail. Blinkx also reserves the right to alter any of these terms and conditions and shall also have right to terminate this Referral Program/offer either for with cause or without cause with or without notice at its sole discretion.</li>
+                <li> In case of any dispute, the decision of Blinkx management shall be final and binding.</li>
+                <li> This Offer is independent and will not be merged/considered with any other offer floated by Blinkx.</li>
+                <li> Account  would  be  open  after  completing  all  Account  Opening  related  formalities including In-Person Verifica- tion (IPV) and Client Due Diligence.</li>
+                <li> The  DRA  shall  strictly  limit  his/her  role  to  “Referral”  only.  The  DRA  cannot  conduct IPV/OSV.</li>
+                <li> Any person / entity / director / Partner / Employee / Associate / relative of registered Stock broker / Authorised  Person  are  not  eligible  for  the  referral  offer.  If  observed  post availing the offer, the introducer is liable to refund the benefit availed and Blinkx may debit the account to the extent of such benefit availed, any time if so observed.</li>
+                <li> The DRA not undertake any form of selling/advisory activities w.r.t securities and shall not manage the port- folio of any person who is being referred and abstain from indicating or assuring returns in any type whatsoever .</li>
+                <li> The DRA shall not subject any referred person to any kind of trade inducement and shall not take any instructions for placement of orders.</li>
+                <li> The DRA shall not solicit or endeavor to entice, directly or indirectly any DRA introduced by the DRA to Blinkx to obtain services of any competitor of Blinkx.</li>
+                <li> The DRA shall maintain confidentiality of all the details/information pertaining to the referred person and  shall  not  disclose  to  any  person  except  as  required  under  any law/regulatory requirements or with the express written permission of the referred person.</li>
+                <li> There will not be any financial transaction between the DRA and his referee.</li>
+                <li> The DRA shall not indulge in any manipulative, fraudulent or deceptive practices or spread rumors with a view to make personal gain.</li>
+                <li> The  relationship  between  Blinkx  and  DRA  shall  be  principal  to  principal  basis  and governed exclusively by these terms and conditions and nothing contained herein shall be deemed  to  create,  any  relationship  of   principal and agent or master and servant or employer and employee between Blinkx/its subsidiaries and DRA or to provide either of them with the right, power or authority, whether express or implied, to create any such duty or obligation or any kind of such relationship.</li>
+                <li> The DRA shall not issue any advertisement without prior approval and consent of Blinkx.</li>
+                <li> These terms and conditions shall be governed by and construed in accordance with the laws of the India and shall be subject to jurisdiction of courts in Mumbai only.</li>
+                <li> DRA will not have access to trading terminal to put the trades on behalf of the client</li>
+                <li> DRA will not have any access to the data of the trading activity of the clients introduced/referred by DRA.</li>
+                <li> Any grievances related to DRA Program, the same shall be subject to the decision of management of Blinkx and the same shall be final and binding and exchange grievance redressal mechanism shall not be  applicable. </li>
+                <li> Blinkx reserves the right to carry out checks and controls as it deem fit and proper, before disbursal of the DRA’s payout.</li>
+                <li> These terms and conditions shall be governed by and construed in accordance with the laws of the India and shall be subject to jurisdiction of courts in Mumbai only. </li>
+                <li> No advice should be given by the DRA to the clients referred/introduced.</li>
+                <li> The   DRA   confirms   of   having   obtained   the   consent   of   the   person   referred   for contacting him/her on his/her provided mobile number and providing his/her details failing which he / she shall not be entitled to payout</li>
+                <li> If the details provided for referrals are incomplete/ incorrect/ invalid, the DRA who has provided the reference shall not be entitled to any payout under the DRA Program.</li>
+                <li> If any client so referred already exists in the records of Blinkx, as an existing client or a potential client, then such client’s referral shall not be considered as eligible referral and consequently no payout shall be shared. </li>
+                <li> For DRA to be eligible for the payout DRA need to open account within 30 days of submission of the lead.</li>
+                <li> This DRA for referring clients to open broking and demat account is not applicable for Blinkx Refer and Earn program.</li>
+                <li>The DRA payout will be released post 5 successful Demat & Trading accounts opened for the particular month, failing to meet the criteria the payout will be carry forwarded to next month till it reached the Min 5 successful Demat & Trading accounts.</li>
+
+                </ol>
+<hr>
+              <p>
+Investment  in  Securities  market  are  subject  to  market  risks,  read  all  the  related  documents  carefully  before investing
+Blinkx  Services  Ltd.  |  CIN:  U67120MH1998PLC115415  |  www.jmfinancialservices.in  |  Regd.  Off.:  7th  Floor,
+Cnergy, Appasaheb Marathe Marg, Prabhadevi, Mumbai 400 025. Tel.: (022) 6630 3030. Fax: (022) 6630 3223 | Corp.
+Off.: 5th Floor, Cnergy, Appasaheb Marathe Marg, Prabhadevi, Mumbai 400 025. Tel.: (022) 6704 0404. Fax: (022) 6704 3139 | Reg Nos.:
+Stock Broker INZ000195834 (NSE Membership No. 10548 | BSE Membership No. 325 | MSEI Membership No.58300 |
+MCX  Membership  No.  56555  |  NCDEX  Membership  No.  1282)  |  Depository  Participant  -  IN-DP-541-2020  |  PMS  -
+INP000000621 | AMFI - ARN0002 | Research Analyst INH000001196.</p>
+            </div>
+        </div>
+            <!-- <div class="tnc-height">
+              <p class="h6">Incentive Perlead: <span class="text-dark">{{request.user.incentive_perlead}}</span></p>
+              <p class="h6">Brokerage Percentage: <span class="text-dark">{{request.user.brokerage_percentage}}%</span></p>
+              <p class="mt-3">{{request.user.remark|replace("\r\n","<br>")|safe}}</p>
+            </div> -->
+            <a href="#" data-tnc class="btn btn-primary gradient-btn w-auto px-5 mt-3">I Agree</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- banner end-->
+
+</main>
+<!-- main end -->
+{% endblock %}

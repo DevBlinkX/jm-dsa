@@ -1,0 +1,138 @@
+{%extends 'web/base.html.j2'%}
+{% block title %} Corporate Flow | Blinkx{% endblock %}
+{% block content %}
+<!-- main -->
+<main class="auth-page signup-page m-4">
+
+  <!-- banner -->
+  <section class="banner-section">
+    <div class="container">
+      <div class="row theme-bg-gray py-3 position-relative border-radious-10">
+        <div class="col-12 col-md-4">
+          <!-- sidebar -->
+          <div class="auth-sidebar">
+            <div class="gradient-bg">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="top-left">
+              <img src="{{static('assets/images/icons/s1.png')}}" alt="dot" class="top-right">
+              <img src="{{static('assets/images/icons/s2.png')}}" alt="dot" class="bottom-left">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="bottom-right">
+              <div class="content-sidebar">
+                <h1>Corporate Flow </h1>
+                <p></p>
+              </div>
+            </div>
+          </div>
+          <!-- sidebar -->
+        </div>
+
+        <div class="col-12 col-md-7">
+          <img src="{{static('assets/images/logo.png')}}" alt="dot" class="logo-top">
+          <div class="p-md-5 mt-5 corporate-form-height">
+            <div>
+              <h3>Corporate Flow </h3>
+              <p class="secondary-color">Lorem Ipsum is simply dummy text of the printing and typesetting ind</p>
+            </div>
+            <form action="/api/update/corporate/" data-corporate-form>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3 form-group ">
+
+                  <input type="text" class="form-control" id="organisation_name"
+                    aria-describedby="organisation_nameHelp" required name="organisation_name">
+                  <label class="form-control-placeholder" for="organisation_name">Name of Organisation*</label>
+                  <div id="organisation_nameHelp" class="form-text text-danger error">Name of Organisation*</div>
+                </div>
+                <div class="col-12 col-md-6 mb-3 form-group ">
+                  <input type="text" class="form-control" id="nature_of_business"
+                    aria-describedby="nature_of_businessHelp" name="nature_of_business">
+                  <label class="form-control-placeholder" for="nature_of_business">Nature of Business
+                    (Optional)</label>
+                  {# <div id="nature_of_businessHelp" class="form-text text-danger error">Nature of Business (Optional)
+                  </div>
+                  #}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3 form-group ">
+
+                  <input type="url" class="form-control" id="website_link" aria-describedby="website_linkHelp" required
+                    name="website_link">
+                  <label class="form-control-placeholder" for="website_link">Website Link*</label>
+                  <div id="website_linkHelp" class="form-text text-danger error">Website Link*</div>
+                </div>
+                <div class="col-12 col-md-6 mb-3 form-group">
+
+                  <input type="text" class="form-control" id="company_pancard_number"
+                    aria-describedby="company_pancard_numberHelp" required name="company_pancard_number">
+                  <label class="form-control-placeholder" for="company_pancard_number">Company Pan Card*</label>
+                  <div id="company_pancard_numberHelp" class="form-text text-danger error">Company Pan Card*</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-12 mb-3 form-group ">
+
+                  <input type="text" class="form-control" id="company_address" aria-describedby="company_addressHelp"
+                    required name="company_address">
+                  <label class="form-control-placeholder" for="company_address">Company Address*</label>
+                  <div id="company_addressHelp" class="form-text text-danger error">Company Address*</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-6 mb-3 form-group ">
+                  <label class="small mb-2 secondary-color" for="certificate_of_incorporation">Certificate of
+                    Incorporation*</label>
+                  <input type="file" class="form-control" id="certificate_of_incorporation"
+                    aria-describedby="certificate_of_incorporationHelp"
+                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" required
+                    name="certificate_of_incorporation">
+                  <div id="certificate_of_incorporationHelp" class="form-text text-danger error">Certificate of
+                    Incorporation*
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3 form-group">
+                  <label class="small mb-2 secondary-color" for="moa">MoA (Optional)</label>
+
+                  <input type="file" class="form-control" id="moa" aria-describedby="moaHelp"
+                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" name="moa">
+                  <!-- <label class="form-control-placeholder" for="moa">MoA (Optional)</label> -->
+                  <!-- <div id="moaHelp" class="form-text text-danger error">MoA (Optional)</div> -->
+                </div>
+                <div class="col-12 col-md-6 mb-3 form-group">
+                  <label class="small mb-2 secondary-color" for="aoa">AoA (Optional)</label>
+                  <input type="file" class="form-control" id="aoa" aria-describedby="aoaHelp"
+                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" name="aoa">
+                  <!-- <label class="form-control-placeholder" for="moa">MoA (Optional)</label> -->
+                  <!-- <div id="aoaHelp" class="form-text text-danger error">AoA (Optional)</div> -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mb-3 form-group ">
+                  <label class="small mb-2 secondary-color" for="gst_certificate">GST certificate*</label>
+                  <input type="file" class="form-control" id="gst_certificate" aria-describedby="gst_certificateHelp"
+                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" required name="gst_certificate">
+                  <!-- <label class="form-control-placeholder" for="gst">GST certificate*</label> -->
+                  <div id="gst_certificateHelp" class="form-text text-danger error">GST certificate*</div>
+                </div>
+                <div class="col-12 col-md-6 mb-3 form-group ">
+                  <label class="small mb-2 secondary-color" for="cancelled_cheque">Cancelled Cheque*</label>
+                  <input type="file" class="form-control" id="cancelled_cheque" aria-describedby="cancelled_chequeHelp"
+                    accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" required name="cancelled_cheque">
+                  <!-- <label class="form-control-placeholder" for="cancel">Cancelled Cheque*</label> -->
+                  <div id="cancelled_chequeHelp" class="form-text text-danger error">Cancelled Cheque*</div>
+                </div>
+              </div>
+              {# <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                <label class="form-check-label" for="exampleCheck1">I agree to the terms and conditions</label>
+              </div> #}
+              <button type="submit" class="btn btn-primary gradient-btn">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- banner end-->
+
+</main>
+<!-- main end -->
+{% endblock %}

@@ -1,0 +1,401 @@
+{%extends 'web/dra-base-dashboard.html.j2'%}
+{% block title %} Leader’s Board | Blinkx{% endblock %}
+{%block custom_css%}
+<style>
+.black-color{
+    color: #161616;
+}
+    .heading {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: black;
+    }
+
+    #infoModal .modal-body {
+        overflow: hidden;
+        border-radius: 16px;
+    }
+
+    #infoModal .close {
+        top: -10px;
+        right: -10px;
+    }
+
+
+    .table thead {
+        background: transparent;
+        color: black;
+    }
+    .card{
+        box-shadow: 0px 0px 2px 0px #00000059;
+        border: 1px solid #eee !important;
+        padding: 15px;
+    }
+    .card-title {
+        padding: 0px 16px;
+        color: black;
+        text-transform: uppercase;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        font-size: 15px;
+        margin-bottom: 4px;
+    }
+
+    .card-title span,
+    .card-list span {
+        width: 100%;
+        background: #fff;
+    }
+
+    .card-list {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+       /* background: linear-gradient(96.07deg, rgba(192, 39, 210, 0.62) -18.06%, rgba(236, 89, 12, 0.75) 94.16%), linear-gradient(0deg, #FFFFFF, #FFFFFF); */
+    }
+
+    .card-list span {
+        width: 80%;
+        background: #fff;
+        padding: 25px 0 25px 15px;
+        margin: 2px 0;
+        height: 78px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card-list span:first-child {
+        justify-content: start;
+        border-radius: 10px 0 0 10px;
+        margin-left: 2px;
+        box-shadow: 1px 0px 10px 7px rgb(0 0 0 / 3%);
+        font-size: 18px;
+    }
+ /*   .card-list:nth-child(1) span{
+       background-color: #fde590 !important;
+    }
+    .card-list:nth-child(1) .level-img{
+       background-color: white !important;
+    }
+    .card-list:nth-child(even) span{
+        background-color: #eaeaea;
+    }
+    .card-list:nth-child(odd) span{
+        background-color: #fad5b0;
+    }
+*/
+
+    .card-list span:last-child {
+        justify-content: end;
+        border-radius: 0 10px 10px 0;
+        margin-right: 2px;
+    }
+    .level-img{
+        background: #f7f0ec !important;
+        width: 25% !important;
+        padding: 0 0px !important;
+    }
+    .table-img {
+        position: relative;
+        height: 90%;
+        width: 100%;
+        object-fit: contain;
+    }
+    .level-img{
+        box-shadow: 1px 0px 10px 7px rgb(0 0 0 / 3%);
+        border-radius: 10px !important;
+        height: 82px !important;
+        background: white !important;
+    }
+</style>
+{%endblock%}
+{% block content %}
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5 justify-content-between">
+
+            <!-- Sidebar Toggle (Topbar) -->
+<!-- deleted -->
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">Leader’s Board</p>
+
+            </div>
+            {%include 'web/dashboard/_partials/dra/header.html.j2'%}
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- <div class="d-flex justify-content-end">
+                <button type="button" name="" id="" class="btn info-btn" data-toggle="modal" data-target="#infoModal">
+                    <span> <i class="fa fa-info-circle" aria-hidden="true"></i> </span>
+                    Info</button>
+            </div> -->
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="heading mb-3">
+                        Highest Brokerage
+                    </div>
+
+                    <div class="card border-0 mb-4">
+
+                        <div class="card-body p-0">
+                            <div class="card-title">
+                                <span>Name</span>
+                                <span class="text-right">Level</span>
+                            </div>
+
+                            <div>
+                                <div data-brokerage-list></div>
+                                <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                                    <p class="h6 text-center py-5">No Data Available</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="heading mb-3">
+                        Highest Account Opening
+                    </div>
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+
+                        <div class="card-body p-0">
+                            <div class="card-title">
+                                <span>Name</span>
+                                <span class="text-right">Level</span>
+                            </div>
+
+                            <div>
+                                <div data-kyc-list ></div>
+                                <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                                    <p class="h6 text-center py-5">No Data Available</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="heading mb-3">
+                        Total Highest Earning
+                    </div>
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+
+                        <div class="card-body p-0">
+                            <div class="card-title">
+                                <span>Name</span>
+                                <span class="text-right">Level</span>
+                            </div>
+
+                            <div>
+                                <div data-earning-list  ></div>
+                                <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                                    <p class="h6 text-center py-5">No Data Available</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <!-- <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer> -->
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+
+<!-- Logout Modal-->
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+
+            <div class="modal-body p-0">
+                <div class="card border-0 mb-0">
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="text-center">KYC</th>
+                                        <th class="text-center">brokerage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Rahul Sharma</td>
+
+                                        <td class="text-center"> Step1 </td>
+                                        <td class="text-center"> &#8377 10,000 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rahul Sharma</td>
+
+                                        <td class="text-center"> Step1 </td>
+                                        <td class="text-center"> &#8377 10,000 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rahul Sharma</td>
+
+                                        <td class="text-center"> Step1 </td>
+                                        <td class="text-center"> &#8377 10,000 </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_footer_script %}
+<script>
+$(document).ready(function () {
+    $(".main-loader").show();
+    $.ajax({
+        type: "GET",
+        url: "/api/dra/leaderboard/broker-list/",
+        dataType: "json",
+        success: function (response) {
+            if (response.length == 0) {
+                $('[ data-empty-category ]').show();
+                $(".main-loader").hide();
+            } else {
+                $(".main-loader").hide();
+                $.each(response, function (k, v) {
+                    var name = v.name;
+                    var brokerage = v.brokerage;
+                    var level = v.level.icon;
+                    var bgColor = v.level.bg_colour;
+                    var imgUrl = `/static/assets/images/medals/${k+1}.png`
+                  //  "{{static('assets/images/medals/2.png')}}"
+                    $("[data-brokerage-list]").append(
+                        `<div class='card-list black-color font-weight-500'><span style="background-color: #${bgColor};" >${name}</span><span class='text-right level-img'>  <img src=${imgUrl} alt='' class='table-img'></span></div>`
+                    );
+
+
+
+                });
+            }
+        },
+        error: function (error) {
+            // var error_data = JSON.parse(error.responseText);
+            $(".main-loader").hide();
+        },
+    });
+    $(".main-loader").show();
+    $.ajax({
+        type: "GET",
+        url: "/api/dra/leaderboard/kyc-list/",
+        dataType: "json",
+        success: function (response) {
+            if (response.length == 0) {
+                $('[ data-empty-category ]').show();
+                $(".main-loader").hide();
+            } else {
+                $(".main-loader").hide();
+                $.each(response, function (k, v) {
+                    var name = v.name;
+                    var kyc = v.kyc;
+                    var level = v.level.icon;
+                    var bgColor= v.level.bg_colour;
+    var imgUrl = `/static/assets/images/medals/${k+1}.png`
+                  //  "{{static('assets/images/medals/2.png')}}"
+                    $("[data-kyc-list]").append(
+                        `<div class='card-list black-color font-weight-500'><span style="background-color: #${bgColor};" >${name}</span><span class='text-right level-img'>  <img src=${imgUrl} alt='' class='table-img'></span></div>`
+                    );
+
+
+                });
+            }
+        },
+        error: function (error) {
+            // var error_data = JSON.parse(error.responseText);
+            $(".main-loader").hide();
+        },
+    });
+
+    $(".main-loader").show();
+    $.ajax({
+        type: "GET",
+        url: "/api/dra/leaderboard/total-earning-list/",
+        dataType: "json",
+        success: function (response) {
+            if (response.length == 0) {
+                $('[ data-empty-category ]').show();
+                $(".main-loader").hide();
+            } else {
+                $(".main-loader").hide();
+                $.each(response, function (k, v) {
+                    var name = v.name;
+                    var kyc = v.kyc;
+                    var level = v.level.icon;
+                    var bgColor = v.level.bg_colour;
+                        var imgUrl = `/static/assets/images/medals/${k+1}.png`
+                  //  "{{static('assets/images/medals/2.png')}}"
+                    $("[data-earning-list]").append(
+                         `<div class='card-list black-color font-weight-500'><span style="background-color: #${bgColor};" >${name}</span><span class='text-right level-img'>  <img src=${imgUrl} alt='' class='table-img'></span></div>`
+                    );
+
+
+                });
+            }
+        },
+        error: function (error) {
+            // var error_data = JSON.parse(error.responseText);
+            $(".main-loader").hide();
+        },
+    });
+});
+</script>
+
+{% endblock %}

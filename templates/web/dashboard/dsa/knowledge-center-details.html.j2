@@ -1,0 +1,249 @@
+{%extends 'web/dsa-base-dashboard.html.j2'%}
+{% block title %} Knowledge Center Details | Blinkx{% endblock %}
+{%block custom_css%}
+<style>
+    .text-grey {
+        color: F8F6F9;
+    }
+
+    .text-black {
+        color: black;
+    }
+
+    .first-row .img-wrapper {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .first-row img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+
+
+    .download-card {
+        border: 1px solid #efd9c8;
+        -webkit-box-shadow: 1px 1px 16px 0px rgba(195, 194, 194, 0.4);
+        -moz-box-shadow: 1px 1px 16px 0px rgba(199, 199, 199, 0.4);
+        box-shadow: 1px 1px 16px 0px rgba(202, 202, 202, 0.4);
+        /* display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: flex-start; */
+        max-height: 300px;
+        overflow: scroll;
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .download-card .heading {
+        font-size: 18px;
+        margin-bottom: 4px;
+        font-weight: 600;
+    }
+
+    .download-btn {
+        color: black;
+        background: #fff7fa;
+        border: 1px solid #edd7c6;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+    }
+
+    .download-btn i {
+        color: #EC590C;
+    }
+
+    .download-btn.active {
+        color: white;
+        background: rgb(226, 77, 61);
+        background: linear-gradient(90deg, rgba(226, 77, 61, 1) 0%, rgba(207, 56, 144, 1) 100%);
+    }
+
+    .download-btn.active>i {
+        color: white;
+    }
+
+    .text-wrapper {
+        margin: 20px 0px;
+    }
+
+    .text-wrapper .title {
+        background: linear-gradient(103.72deg, #EC590C -20.3%, #C027D2 138.65%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 500;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+
+    .text-wrapper .date {
+        font-size: 14px;
+    }
+
+    .text-wrapper .heading {
+        line-height: 34px;
+        font-weight: 600;
+        font-size: 23px;
+        margin: 20px 0px;
+    }
+
+    .text-wrapper .desc {
+        line-height: 1.8;
+        font-size: 15px;
+    }
+
+    br {
+        content: '';
+        display: block;
+        margin: 24px 0;
+    }
+</style>
+{%endblock%}
+{% block content %}
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5  justify-content-between">
+
+            <!-- Sidebar Toggle (Topbar) -->
+<!-- deleted -->
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">Knowledge Center Details</p>
+
+            </div>
+            {%include 'web/dashboard/_partials/dsa/header.html.j2'%}
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <div class="d-flex first-row row">
+                <div class="col-md-8">
+                    <!-- specs img-->
+                    <div class="img-wrapper" data-image></div>
+                    <div class="text-wrapper">
+                        <div class="d-flex mb-3" data-tags></div>
+                        <div class="d-flex justify-content-between align-items-center gradient-text">
+                            <div class="title" data-category></div>
+                            <div class="date" data-date>
+                            </div>
+                        </div>
+                        <div class="heading text-black" data-title></div>
+                        <div class="desc text-grey mb-5" data-content></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="download-card">
+                        <p class="text-black heading">
+                            Download Assets
+                        </p>
+                        <div data-assets></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+{% endblock %}
+{% block extra_footer_script %}
+<script>
+    function appendKnowledgeDetails() {
+        $(".main-loader").show();
+        var url = window.location.search;
+        kDetailUrl = url.replace("?", ''); // remove the ?
+
+        $.ajax({
+            type: "GET",
+            url: "/api/dra/knowlage-center-details/" + kDetailUrl + "/",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Authorization": "Bearer " + localStorage.getItem("access-token"),
+            },
+            dataType: "json",
+            success: function (response) {
+                $(".main-loader").hide();
+
+                $('[data-title]').append(response.title);
+                $('[data-content]').append(response.content);
+                $('[data-image]').append("<img src='" + response.image + "' alt='dot' class='top-right'>");
+                $('[data-slug]').append(response.slug);
+                $('[data-date]').append(response.new_date_format);
+                $('[data-category]').append(response.category.name);
+
+                $.each(response.tags, function (k, v) {
+                    $('[data-tags]').append(`<div class="mr-2 border rounded bg-light px-2 py-1 small">${v.name}</div>`);
+                });
+
+            },
+            error: function (error) {
+                // var error_data = JSON.parse(error.responseText);
+                $(".main-loader").hide();
+            },
+        });
+    }
+    appendKnowledgeDetails();
+
+    function knowledgeAssets() {
+        $(".main-loader").show();
+        var url = window.location.search;
+        kDetailUrl = url.replace("?", ''); // remove the ?
+
+        $.ajax({
+            type: "GET",
+            url: "/api/dra/knowlage-assets-list/" + kDetailUrl + "/",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Authorization": "Bearer " + localStorage.getItem("access-token"),
+            },
+            dataType: "json",
+            success: function (response) {
+                $(".main-loader").hide();
+                if (response == 0) {
+
+                    $(".main-loader").hide();
+                    $("[data-assets]").append(`<div data-empty-category class="card w-100 mt-4"><p class="h6 text-center py-5">No Assets Available</p></div>`)
+                } else {
+                    $(".main-loader").hide();
+                    $.each(response, function (k, v) {
+
+
+                        $('[data-assets]').append(`<a href="${v.file}" class="btn download-btn mt-3" download="${v.type}">
+                                        <span>
+                                            ${v.type}
+                                        </span>
+                                        <i class="fa fa-download" aria-hidden="true"></i></a>`);
+
+                    });
+                }
+            },
+            error: function (error) {
+                // var error_data = JSON.parse(error.responseText);
+                $(".main-loader").hide();
+            },
+        });
+    }
+    knowledgeAssets();
+</script>
+{% endblock %}

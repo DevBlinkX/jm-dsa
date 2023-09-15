@@ -1,0 +1,452 @@
+{%extends 'web/rmj-base-dashboard.html.j2'%}
+{% block title %} My Profile | Blinkx{% endblock %}
+{%block custom_css%}
+<style>
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+ .form-group  .form-control-placeholder {
+    position: absolute;
+    top: 0;
+    padding: 20px 0 0 20px;
+    transition: all 300ms;
+    opacity: 0.5;
+    font-size: 14px;
+  }
+  .form-group .form-control:focus {
+    -webkit-box-shadow: 1px 1px 16px 0px rgba(168, 168, 168, 0.4);
+    -moz-box-shadow: 1px 1px 16px 0px rgba(168, 168, 168, 0.4);
+    box-shadow: 1px 1px 16px 0px rgba(168, 168, 168, 0.4);
+  }
+  .form-group .form-control:focus + .form-control-placeholder,
+  .form-group .form-control:valid + .form-control-placeholder {
+    font-size: 80%;
+    transform: translate3d(0, -32%, 0);
+    color: #EC590C;
+    opacity: 1;
+  }
+  .form-group .valid-label {
+    font-size: 80%;
+    transform: translate3d(0, -32%, 0);
+    color: #EC590C;
+    opacity: 1;
+  }
+  .form-group input,
+  .form-group select {
+    padding-top: 20px;
+    padding-left: 20px;
+    height: 60px;
+    font-size: 12px !important;
+    border-radius: 10px;
+    padding-top: 20px;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border: 1px solid #EC590C !important;
+    outline-width: 0;
+    font-weight: 400;
+    padding-top: 20px;
+  }
+    .w-100{
+        width: 100% !important;
+    }
+    .heading {
+        font-size: 28px;
+        font-weight: 500;
+        color: black;
+    }
+
+    .name-wrapper .name-icon {
+        border-radius: 50%;
+        height: 80px;
+        width: 80px;
+
+        background: linear-gradient(144.07deg, #EC590C -8.68%, #C027D2 135.39%);
+        font-size: 50px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .name-icon img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .name-wrapper .name {
+        font-size: 22px;
+        line-height: 1.2;
+        font-weight: 500;
+        color: black;
+    }
+
+    .name-wrapper .desc {
+        font-size: 16px;
+    }
+
+    .readonly-focus {
+        font-size: 80%;
+        transform: translate3d(0, -32%, 0);
+        color: orange;
+        opacity: 1;
+    }
+    .form-group input {
+        padding-left: 12px;
+    }
+    .form-group select{
+             padding-left: 15px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+{%endblock%}
+{% block content %}
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5 justify-content-between">
+
+            <!-- Sidebar Toggle (Topbar) -->
+<!-- deleted -->
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">My Profile</p>
+
+            </div>
+            {%include 'web/dashboard/_partials/rmj/header.html.j2'%}
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <div class="row name-wrapper">
+                <div class="mr-3">
+                    <div class="name-icon text-capitalize">
+                        {% if request.user.name %}
+                        {{request.user.name.0}}
+                        {% endif %}
+
+                    </div>
+                </div>
+                <div class="d-flex flex-column justify-content-center align-items-start">
+                    <div class="name text-black">
+                        {{request.user.name}}</div>
+                    <div class="desc">
+                        {{request.user.email}}  <span style="color: black;">( Date Joined - {{ request.user.date_joined.strftime('%d/%m/%Y') }} )</span> 
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-none row mt-5">
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="text" id="name" class="form-control" aria-describedby="nameHelp" required
+                            value="{{request.user.name}}" readonly>
+                        <label class="form-control-placeholder readonly-focus" for="name">Name</label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="email" id="email" class="form-control" aria-describedby="data-email-error" required
+                            value="{{request.user.email}}" readonly>
+                        <label class="form-control-placeholder readonly-focus" for="email">Enter Email Id*</label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="tel" id="mobile" class="form-control" aria-describedby="data-mobile-error" required
+                            value="{{request.user.mobile}}" readonly>
+                        <label class="form-control-placeholder readonly-focus" for="mobile">Mobile Number*</label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="text" id="rm" class="form-control text-uppercase" aria-describedby="rmHelp"
+                            required value="{{request.user.user_type}}" readonly>
+                        <label class="form-control-placeholder readonly-focus" for="rm">RM</label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="text" id="gender" class="form-control text-uppercase" aria-describedby="genderHelp"
+                            required value="{{request.user.gender}}" readonly>
+                        <label class="form-control-placeholder readonly-focus" for="gender">Gender</label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="text" id="date_of_birth" class="form-control text-uppercase"
+                            aria-describedby="date_of_birthHelp" required value="{{request.user.date_of_birth}}"
+                            readonly>
+                        <label class="form-control-placeholder readonly-focus" for="date_of_birth">Date Of Birth</label>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h3 class="h4 font-weight-500 mt-4">Bank Details</h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="number" id="account" class="form-control" aria-describedby="accountHelp" required
+                            readonly>
+                        <label class="form-control-placeholder readonly-focus" for="account">Account Number</label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="number" id="ifsc" class="form-control" aria-describedby="ifscHelp" required
+                            readonly>
+                        <label class="form-control-placeholder readonly-focus" for="ifsc">Enter IFSC Code*</label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="number" id="reAccount" class="form-control" aria-describedby="reAccountHelp"
+                            required readonly>
+                        <label class="form-control-placeholder readonly-focus" for="reAccount">Re Enter Account
+                            Number*</label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="text" id="pay" class="form-control" aria-describedby="payHelp" required readonly>
+                        <label class="form-control-placeholder readonly-focus" for="pay">Pay Account Name
+                        </label>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-2">
+                        <input type="text" id="remark" class="form-control" aria-describedby="remarkHelp" required
+                            readonly>
+                        <label class="form-control-placeholder readonly-focus" for="remark">Remark</label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-none row">
+                <div class="col-md-12">
+                    <h3 class="h4 font-weight-500 mt-4 mb-3">TDS Certificate</h3>
+                </div>
+            </div>
+            <form action="" method="post" data-tds-form>
+                <div class="d-none row">
+                
+                <div class="col-12 col-md-4">
+
+                  <div class="form-group">
+                    <label class="form-control-placeholder financial-year-label label-active valid-label" for="financial-year">Select Finanial Year *</label>
+                    <select name="financial_year" class="form-control" id="financialYear" required>
+                      <!-- <option value="" selected disabled>Select Financial Year</option> -->
+                    </select>
+                  </div>
+                </div>
+<div class="col-12 col-md-4">
+
+                  <div class="form-group">
+                    <label class="form-control-placeholder quarter-month-label label-active valid-label" for="quarter-month">Select Quarter Month *</label>
+                    <select name="quarter" class="form-control" id="quarterMonth" required>
+                      <!-- <option value="" selected disabled>Select Quarter Month</option> -->
+                      <!-- <option value="1">Quarter First</option>
+                      <option value="2">Quarter Second</option>
+                      <option value="3">Quarter Third</option>
+                      <option value="4">Quarter Forth</option> -->
+                    </select>
+                  </div>
+                </div>
+                {# <div class="col-12 col-md-4">
+
+                  <div class="form-group">
+                    <label class="form-control-placeholder segment-label label-active valid-label" for="segment">Select Segment *</label>
+                    <select name="segment" class="form-control" id="segment" required>
+                      <!-- <option value="" selected disabled>Select Segment</option> -->
+                    </select>
+                  </div>
+                </div> #}
+            </div>
+
+            <p class="get-error small text-danger m-0"></p>
+            <div class="d-none row"><div class="col-12"><button id="downloadTds" class="btn gradient-btn w-auto px-4 mt-3" type="submit">
+                        Download TDS Certificate
+                    </button></div></div>
+</form>
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+
+</div>
+<!-- End of Content Wrapper -->
+{% endblock %}
+{% block extra_footer_script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    //  $('.days-select').niceSelect();
+    $('.custom-select').niceSelect();
+   // $('.download-select').niceSelect();
+</script>
+
+<script>
+    $(".main-loader").hide();
+$(document).ready(function () {
+    $.ajax({
+      url: "/api/dra/financial-year/",
+      type: "GET",
+      dataType: "json",
+      success: function (res, textStatus, xhr) {
+        var jsonObj = res.data;
+        if (res.data == 0) {
+            $("select#financialYear").html("");
+            $("<option />")
+                .val('')
+                .text('Select Financial Year')
+                .appendTo($("select#financialYear"));
+        } else {
+            $("select#financialYear").html("");
+            for (var i = 0; i < jsonObj.length; i++) {
+            $("<option />")
+                .val(jsonObj[i].name)
+                .text(jsonObj[i].name)
+                .appendTo($("select#financialYear"));
+
+            $("#financialYear").prop("required", "true");
+            }
+            
+        }
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        // toastr.error("Bad Request");
+      },
+    });
+
+    // quarterMonth
+    $.ajax({
+      url: "/api/dra/get/quarters/",
+      type: "GET",
+      dataType: "json",
+      success: function (res, textStatus, xhr) {
+        var jsonObj = res.data;
+        if (res.data == 0) {
+            $("select#quarterMonth").html("");
+            $("<option />")
+                .val('')
+                .text('Select Quarter Month')
+                .appendTo($("select#quarterMonth"));
+        } else {
+            $("select#quarterMonth").html("");
+            for (var i = 0; i < jsonObj.length; i++) {
+            $("<option />")
+                .val(jsonObj[i].value)
+                .text(jsonObj[i].text)
+                .appendTo($("select#quarterMonth"));
+
+            $("#quarterMonth").prop("required", "true");
+            }
+            
+        }
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        // toastr.error("Bad Request");
+      },
+    });
+
+    // segment
+    $.ajax({
+      url: "/api/dra/segment/",
+      type: "GET",
+      dataType: "json",
+      success: function (res, textStatus, xhr) {
+        var jsonObj = res.data;
+        if (res.data == 0) {
+            $("select#segment").html("");
+            $("<option />")
+                .val('')
+                .text('Select Segment')
+                .appendTo($("select#segment"));
+        } else {
+            $("select#segment").html("");
+            for (var i = 0; i < jsonObj.length; i++) {
+            $("<option />")
+                .val(jsonObj[i].slug)
+                .text(jsonObj[i].name)
+                .appendTo($("select#segment"));
+
+            $("#segment").prop("required", "true");
+            }
+        }
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        // toastr.error("Bad Request");
+      },
+    });
+});
+
+$('[data-tds-form]').submit(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    // download certificate
+    var financial_year = $("#financialYear").val();
+    var segment = $("#segment").val();
+    var quarter = $("#quarterMonth").val();
+    $.ajax({
+      url: "/api/dra/download/tds/",
+      type: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "Bearer " + localStorage.getItem("access-token"),
+      },
+      data: {
+        financial_year: financial_year,
+        segment: segment,
+        quarter: quarter
+      },
+      dataType: "json",
+      success: function (res, textStatus, xhr) {
+        if(res.success == true){
+            var jsonObj = res.data;
+            var url =jsonObj.download_link;
+            var link = document.createElement("a");
+            link.href = url;
+            link.download = "Download Certificate";
+            link.click();
+            window.open(url, "_blank");
+            link.remove();
+        } else {    
+            $('.get-error').text('Invalid Request');
+        }
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        $('.get-error').text(xhr.responseJSON.msg);
+      },
+    });
+});
+
+</script> {% endblock %}

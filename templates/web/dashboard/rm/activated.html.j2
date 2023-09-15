@@ -1,0 +1,442 @@
+{%extends 'web/rm-base-dashboard.html.j2'%}
+{% block title %} Accounts Opened | Blinkx{% endblock %}
+{%block custom_css%}
+<style>
+
+
+    h5#leadModalLabel {
+        font-size: 20px;
+        font-weight: 500;
+        color: #1f1f1f;
+    }
+
+    #leadModal .close {
+        top: 50px;
+        right: 35px;
+        background: #fff3ee;
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+
+    #leadModal .modal-body {
+        padding: 0rem 1.6rem;
+    }
+
+    #leadModal .modal-header {
+        padding: 1rem 1.6rem;
+        padding-top: 2rem;
+    }
+
+    .black-dot {
+        background: #010101;
+        height: 10px;
+        width: 10px;
+    }
+
+    .bg-beige {
+        
+        background: #565656;
+        color: #f7f7f7;
+    }
+
+    .info-bottom path {
+        fill: #010101;
+    }
+
+    .text-black {
+        color: #010101;
+    }
+</style>
+{%endblock%}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Content Wrapper -->
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5 justify-content-between">
+
+            <!-- Sidebar Toggle (Topbar) -->
+<!-- deleted -->
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">Accounts Opened</p>
+
+            </div>
+            {%include 'web/dashboard/_partials/rm/header.html.j2'%}
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+
+
+            <div class="row">
+                <div class="col-12 col-xl-12 col-lg-12">
+                    <div class="d-flex justify-content-end mb-3">
+                        <div data-search-activated class="search-form mr-3">
+                                <div class="input-group">
+                                    <div class="form-outline w-xs-75">
+                                        <input type="search" placeholder="Search..." class="form-control search-input" />
+                                    </div>
+                                    <button type="submit" class="btn gradient-btn w-auto px-3">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                        </div>
+
+                        <select class="w-auto custom-select days-select" name="" id="">
+                            <option selected disabled
+                                data-display="<i class='fa fa-filter' aria-hidden='true'></i> Filter">Filter</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="60">Last 60 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                    </div>
+<div class="bg-light px-3 py-2 mb-2 rounded d-md-none d-flex align-items-center justify-content-between">
+                        <p class="mb-0"> Swipe to scroll horizontally</p>
+                        <img src="{{static('dashboard/img/swipe.png')}}" width="40" class="img-fluid swipe-icon" alt="swipe">
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="bg-beige">
+                                        <tr>
+                                            <th>Sr No.</th>
+                                            <th>Name</th>
+                                            <th>DRA Code</th>
+                                            <th>DRA Name</th>
+                                            <th>Email Id</th>
+                                            <th>Mobile No.</th>
+                                            <th>Channel</th>
+                                            <th class="text-center">Trade active</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-activated-list>
+
+                                    </tbody>
+                                </table>
+                                <div data-empty-category="" style="display: none;" class="card w-100 mt-4">
+                                    <p class="h6 text-center py-5">No Data Available</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bg-light px-3 py-2 mb-2 rounded d-md-none d-flex align-items-center justify-content-between">
+                        <p class="mb-0"> Swipe to scroll horizontally</p>
+                        <img src="{{static('dashboard/img/swipe.png')}}" width="40" class="img-fluid swipe-icon" alt="swipe">
+                    </div>
+                    {# <div class="d-flex flex-column justify-content-end mb-3 align-items-end">
+                        <div class="d-flex mb-1">
+                            <div class="green-dot mt-1">
+                            </div>
+                            <span class="mr-3 ml-2">
+                                <b>Trade active</b> : Customers who have
+                                traded within 30 days of account
+                                opening.
+                            </span>
+                        </div>
+                        <div class="d-flex">
+                            <div class="red-dot mt-1">
+
+                            </div>
+                            <span class="ml-2">
+                                <b>Not active</b> : customers who have Not
+                                traded within 30 days of account
+                                opening
+                                
+                            </span>
+                        </div>
+                    </div> #}
+                </div>
+                <div class="bottom-note px-3 w-100">
+
+                    <div class="d-flex flex-column justify-content-end mb-3 align-items-start bg-beige pl-2 py-2" style="
+                border-radius: 12px;">
+
+                        <div class=" d-flex mb-1">
+                            <div class="green-dot mt-1 mr-2">
+                            </div>
+                            <span class="mr-2">
+                                <b>Trade active</b> : Customers who have
+                                traded within 30 days of account
+                                opening.
+                            </span>
+                        </div>
+                        <div class="d-flex">
+                            <div class="red-dot mt-1 mr-2">
+                            </div>
+                            <span class="mr-2">
+                                <b>Not active</b> : customers who have Not
+                                traded within 30 days of account
+                                opening
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p id="pagination-here" class="d-flex justify-content-center"></p>
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <!-- <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer> -->
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_footer_script %}
+<script src="https://cdn.rawgit.com/botmonster/jquery-bootpag/master/lib/jquery.bootpag.min.js"></script>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const getName = urlParams.get('name');
+
+    $("[data-search-activated] button").on("click", function (e) {
+            var searchVal = $('.search-input').val();
+            console.log(searchVal)
+            window.location = '/rm-activated/?name='+searchVal;
+    });
+
+    $(".main-loader").show();
+    $.ajax({
+        type: "GET",
+        url: "/api/rm-activated/?name="+getName,
+        dataType: "json",
+        success: function (response) {
+
+            $("[data-activated-list]").empty();
+            var count = response.count;
+            var total = count / 10;
+            if (count > 10) {
+                var total = count / 10;
+            }
+            else {
+                total = 0
+            }
+            if (typeof total === "number") {
+                if (total % 1 === 0) {
+                    total;
+                } else {
+                    total = Math.floor(total + 1);
+                }
+            } else {
+                total = 1;
+            }
+            $("#pagination-here").bootpag({
+                total: total,
+                page: 1,
+                maxVisible: 5,
+                leaps: true,
+                href: "javascript: void(0);",
+                wrapClass: "pagination",
+                activeClass: "active",
+                prev: ' <i class="fa fa-arrow-left" aria-hidden="true"></i>',
+                next: ' <i class="fa fa-arrow-right" aria-hidden="true"></i>',
+            });
+            $("#pagination-here").find("a").addClass("page-link", "orange-color");
+            $("#pagination-here").find("li").addClass("page-item");
+            if (response.results.length == 0) {
+                $(".main-loader").show();
+                $('[ data-empty-category ]').show();
+            } else {
+                $(".main-loader").hide();
+                $.each(response.results, function (k, v) {
+                    var sr = k+1;
+                    var name = v.name;
+                    var dra = v.dra_code;
+                    var dra_name = v.dra_name;
+                    var email = v.email;
+                    var mobile_no = v.mobile;
+                    var user_channel = v.user_channel;
+                    var is_activated = v.is_activated;
+
+                    if (is_activated == true) {
+                        $("[data-activated-list]").append(
+                            "<tr><td>"+sr+"</td><td>" + name + "</td><td>" + dra + "</td><td>" + dra_name + "</td><td>" + email + "</td><td> " + mobile_no + "</td><td> " + user_channel + "</td><td> <span class='green-dot'></span></td></tr>"
+                        );
+                    } else {
+                        $("[data-activated-list]").append(
+                            "<tr><td>"+sr+"</td><td>" + name + "</td><td>" + dra + "</td><td>" + dra_name + "</td><td>" + email + "</td><td> " + mobile_no + "</td><td> " + user_channel + "</td><td> <span class='red-dot'></span></td></tr>"
+                        );
+                    }
+                });
+            }
+            $(".main-loader").hide();
+        },
+        error: function (error) {
+            $(".main-loader").hide();
+        },
+    });
+    //   select ajax call
+    $(".custom-select").on("change", function () {
+        $(".main-loader").show();
+        $.ajax({
+            type: "GET",
+            url: "/api/rm-activated/?name="+getName+"&days=" + this.value,
+            dataType: "json",
+            success: function (response) {
+                $(".main-loader").hide();
+                $("[data-activated-list]").empty();
+                var count = response.count;
+                var total = count / 10;
+                if (count > 10) {
+                    var total = count / 10;
+                }
+                else {
+                    total = 0
+                }
+                if (typeof total === "number") {
+                    if (total % 1 === 0) {
+                        total;
+                    } else {
+                        total = Math.floor(total + 1);
+                    }
+                } else {
+                    total = 1;
+                }
+                $("#pagination-here").bootpag({
+                    total: total,
+                    page: 1,
+                    maxVisible: 5,
+                    leaps: true,
+                    href: "javascript: void(0);",
+                    wrapClass: "pagination",
+                    activeClass: "active",
+                    prev: ' <i class="fa fa-arrow-left" aria-hidden="true"></i>',
+                    next: ' <i class="fa fa-arrow-right" aria-hidden="true"></i>',
+                });
+                $("#pagination-here").find("a").addClass("page-link", "orange-color");
+                $("#pagination-here").find("li").addClass("page-item");
+                if (response.results.length == 0) {
+                    $('[ data-empty-category ]').show();
+                } else {
+                    $.each(response.results, function (k, v) {
+
+                        var sr = k+1;
+                        var name = v.name;
+                        var dra = v.dra_code;
+                        var dra_name = v.dra_name;
+                        var email = v.email;
+                        var mobile_no = v.mobile;
+                        var user_channel = v.user_channel;
+                        var is_activated = v.is_activated;
+
+                        if (is_activated == true) {
+                            $("[data-activated-list]").append(
+                                "<tr><td>"+sr+"</td><td>" + name + "</td><td>" + dra + "</td><td>" + dra_name + "</td><td>" + email + "</td><td> " + mobile_no + "</td><td> " + user_channel + "</td><td> <span class='green-dot'></span></td></tr>"
+                            );
+                        } else {
+                            $("[data-activated-list]").append(
+                                "<tr><td>"+sr+"</td><td>" + name + "</td><td>" + dra + "</td><td>" + dra_name + "</td><td>" + email + "</td><td> " + mobile_no + "</td><td> " + user_channel + "</td><td> <span class='red-dot'></span></td></tr>"
+                            );
+                        }
+                    });
+                }
+
+            },
+            error: function (error) {
+                $(".main-loader").hide();
+            },
+        });
+    });
+    //   pagination ajax call
+    $("#pagination-here").on("page", function (event, num) {
+        $(".main-loader").show();
+        $.ajax({
+            type: "GET",
+            url: "/api/rm-activated/?name="+getName+"&page=" + num,
+            dataType: "json",
+            success: function (response) {
+                $(".main-loader").hide();
+                $("[data-activated-list]").empty();
+                if (response.results.length == 0) {
+                    $('[ data-empty-category ]').show();
+                } else {
+                    $.each(response.results, function (k, v) {
+
+                        var sr = k+1;
+                        var name = v.name;
+                        var dra = v.dra_code;
+                        var dra_name = v.dra_name;
+                        var email = v.email;
+                        var mobile_no = v.mobile;
+                        var user_channel = v.user_channel;
+                        var is_activated = v.is_activated;
+
+                        if (is_activated == true) {
+                            $("[data-activated-list]").append(
+                                "<tr><td>"+sr+"</td><td>" + name + "</td><td>" + dra + "</td><td>" + dra_name + "</td><td>" + email + "</td><td> " + mobile_no + "</td><td> " + user_channel + "</td><td> <span class='green-dot'></span></td></tr>"
+                            );
+                        } else {
+                            $("[data-activated-list]").append(
+                                "<tr><td>"+sr+"</td><td>" + name + "</td><td>" + dra + "</td><td>" + dra_name + "</td><td>" + email + "</td><td> " + mobile_no + "</td><td> " + user_channel + "</td><td> <span class='red-dot'></span></td></tr>"
+                            );
+                        }
+                    });
+                }
+
+            },
+            error: function (error) {
+                $(".main-loader").hide();
+            },
+        });
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    //  $('.days-select').niceSelect();
+    $('.custom-select').niceSelect();
+   // $('.download-select').niceSelect();
+</script>
+{% endblock %}

@@ -1,0 +1,567 @@
+{%extends 'web/rm-base-dashboard.html.j2'%}
+{% block title %} Dashboard| Blinkx{% endblock %}
+{%block custom_css%}
+<style>
+    h5#leadModalLabel {
+        font-size: 20px;
+        font-weight: 500;
+        color: #1f1f1f;
+    }
+
+    #leadModal .close {
+        top: 50px;
+        right: 35px;
+        background: #fff3ee;
+        font-size: 1.5rem;
+        padding: 6px 12px;
+    }
+
+    #leadModal .modal-body {
+        padding: 0rem 1.6rem;
+    }
+
+    #leadModal .modal-header {
+        padding: 1rem 1.6rem;
+        padding-top: 2rem;
+    }
+
+    .table-responsive {
+        max-height: 25rem;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .table thead {
+        position: sticky;
+        top: 0;
+        background: #565656;
+        color: #f7f7f7;
+    }
+</style>
+{%endblock%}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top py-5 justify-content-between">
+
+            <!-- Sidebar Toggle (Topbar) -->
+<!-- deleted -->
+
+            <!-- Topbar Search -->
+            <div class="top-heading">
+                <p class="h3 font-weight-600">Welcome, <span
+                        class="primary-color text-gradient text-capitalize">{{request.user.name}}</span></p>
+                <p class="m-0"></p>
+            </div>
+            {%include 'web/dashboard/_partials/rm/header.html.j2'%}
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- <div class="row">
+                <div class="col-12">
+                    <div class="cta d-flex align-items-center">
+                        <div class="content w-100">
+                            <p class="h4 text-white font-weight-500">Lorem Ipsum is simply dummy text</p>
+                            <p class="text-white mb-0">Lorem Ipsum has been the industry's standard dummy text ever
+                                since the </p>
+                        </div>
+                        <div class="button">
+                            <a href="#" class="btn btn-cta">Click To New Offer
+                                <svg class="arrow ml-3" width="25" height="14" viewBox="0 0 25 14" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.44053 6.78463H23.6326L17.6115 0.847565C17.5695 0.806185 17.5695 0.73924 17.6115 0.69786C17.6534 0.65648 17.7214 0.65648 17.7633 0.69786L23.9686 6.81426C23.9888 6.83417 24.0002 6.86087 24.0002 6.88911C24.0002 6.91722 23.9888 6.94405 23.9686 6.96396L17.7633 13.0804C17.7214 13.1217 17.6534 13.1216 17.6115 13.0802C17.5695 13.039 17.5695 12.9719 17.6115 12.9305L23.6326 6.99562H9.44053C9.38135 6.99562 9.3335 6.94831 9.3335 6.89012C9.3335 6.83193 9.38135 6.78463 9.44053 6.78463Z"
+                                        fill="#EC590C" stroke="#EC590C" />
+                                    <circle cx="0.66667" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                    <circle cx="3.77751" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                    <circle cx="6.88884" cy="7.11149" r="0.66667" fill="#EC590C" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Page Heading -->
+           <div class="d-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 font-weight-500">Overview</h1>
+
+                <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+                <select class="w-auto custom-select" name="" id="">
+                    <option selected disabled data-display="<i class='fa fa-filter' aria-hidden='true'></i> Filter">
+                        Filter</option>
+                    <option value="30">Last 30 days</option>
+                    <option value="60">Last 60 days</option>
+                    <option value="90">Last 90 days</option>
+                </select>
+            </div>
+
+            <!-- Content Row -->
+            <div class="row">
+
+                <!-- Earnings (Monthly) Card Example -->
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-12 col-md-12 mb-4 top-cards">
+                    <div class="card h-100 py-md-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        Total Referrals Added</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-total-leads></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/total-leads.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card h-100 py-md-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        Total accounts opened</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-account-opened></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/account-opened.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card h-100 py-md-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        Conversion %</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-trading-client></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/trading-client.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card h-100 py-md-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        Pending Referrals</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-revenue-earned></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/pending-leads.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {# <div class="card h-100 py-md-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-start">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-500 text-uppercase mb-1">
+                                        Total App Downloads</div>
+                                    <div class="h5 mb-0 font-weight-600 black-color" data-pending-leads></div>
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{static('dashboard/img/overview/revenue-earned.svg')}}" alt="" class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div> #}
+
+
+                </div>
+            </div>
+
+            <!-- Content Row -->
+
+            <div class="row">
+
+                <!-- Area Chart -->
+                <div class="col-12 col-xl-6 col-lg-6">
+                    <div class="card graph-card mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Referrals</h6>
+                            <div class=" text-center small">
+                                <span class="mr-2">
+                                    <i class="fas fa-circle graph-color-1"></i> Added
+                                </span>
+                                <span class="mr-2">
+                                    <i class="fas fa-circle graph-color-2"></i> Accounts Opened
+                                </span>
+                            </div>
+                            <!-- <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div> -->
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body p-0">
+                            <div class="chart-area" id="leadChartArea">
+                                <canvas id="leadChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="col-12 col-xl-6 col-lg-6">
+                    <div class="card graph-card mb-4">
+
+                        <!--   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Conversion</h6>
+                        </div>
+                  
+                        <div class="card-body p-0 row align-items-center">
+                            <div class="chart-pie col-6">
+                                <canvas id="conversionChart"></canvas>
+                            </div>
+                            <div class="small col-6">
+                                <div class="mr-2 mb-3">
+                                    <i class="fas fa-circle graph-color-1"></i> Youtube
+                                </div>
+                                <div class="mr-2 mb-3">
+                                    <i class="fas fa-circle graph-color-2"></i> Google
+                                </div>
+                                <div class="mr-2">
+                                    <i class="fas fa-circle graph-color-3"></i> Facebook
+                                </div>
+                            </div>
+                        </div>
+
+                  
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Convrsion Stage</h6>
+                        </div>
+
+                        <div class="card-body p-0 row align-items-center">
+                            <div class="chart-pie col-6">
+                                <canvas id="convrsionstageChart"></canvas>
+                            </div>
+                            <div class="small col-6">
+                                <div class="mr-2 mb-3">
+                                    <i class="fas fa-circle graph-color-p1"></i> Pending
+                                </div>
+                                <div class="mr-2 mb-3">
+                                    <i class="fas fa-circle graph-color-p2"></i> Rejected
+                                </div>
+                                <div class="mr-2 mb-3">
+                                    <i class="fas fa-circle graph-color-p3"></i> Open
+                                </div>
+                                <div class="mr-2">
+                                    <i class="fas fa-circle graph-color-p4"></i> Others
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">App Downloads</h6>
+                        </div>
+
+                        <div class="card-body p-0 row align-items-center" no-download-data>
+                            <div class="chart-pie col-6" id="downloadChartArea">
+                                <canvas id="downloadChart"></canvas>
+                            </div>
+                            <div class="small col-6">
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-download-1>
+                                </div>
+                                <div class="mr-2 mb-3 d-flex justify-content-between align-items-center"
+                                    data-download-2>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <!-- Area Chart -->
+                <div class="col-12 col-xl-6 col-lg-6">
+                    <div class="card graph-card mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Brokerage</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body p-0">
+                            <div class="chart-area" id="brokerageChartArea">
+                                <canvas id="brokerageChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="col-12 col-xl-6 col-lg-6 ">
+                    <div class="card graph-card mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between px-0">
+                            <h6 class="m-0 font-weight-bold text-primary">Incentive</h6>
+                            <!-- <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div> -->
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body p-0">
+                            <div class="chart-pie pt-4 pb-2" id=incentiveChartArea>
+                                <canvas id="incentiveChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-xl-4 col-lg-4">
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+                        <div class="card-header py-3 px-3">
+                            <h6 class="m-0 font-weight-bold text-primary"> DRA by Brokerage</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Brokerage</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-broker-list>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-4 col-lg-4">
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+                        <div class="card-header py-3 px-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DRA by KYC</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>KYC</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-kyc-list>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-4 col-lg-4">
+                    <!-- DataTales Example -->
+                    <div class="card border-0 mb-4">
+                        <div class="card-header py-3 px-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DRA by Referrals</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Referrals</th>
+                                            <th>Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-refer-list>
+                                        <tr>
+                                            <td><span class="count">1</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="count">2</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="count">3</span></td>
+                                            <td> 39</td>
+                                            <td>Rahul Sharma</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <!-- <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer> -->
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+
+<!-- Logout Modal-->
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Share Link</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Leads Modal-->
+<div class="modal fade" id="leadModal" tabindex="-1" role="dialog" aria-labelledby="leadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leadModalLabel">Referrals</h5>
+                <div class="d-flex justify-content-end mb-3">
+                    <button type="button" name="" id="" class="btn info-btn mr-3" data-toggle="modal"
+                        data-target="#leadsModal"> <span>
+                            <i class="fa fa-plus" aria-hidden="true"></i> </span> Add Referrals</button>
+                    <button type="button" name="" id="" class="btn info-btn"> <span> <i class="fa fa-filter"
+                                aria-hidden="true"></i> </span> Filter</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-beige">
+                            <tr>
+                                <th>Name</th>
+                                <th>Email Id</th>
+                                <th>Mobile No.</th>
+                                <th>date Created</th>
+                                <th class="text-center">steps</th>
+                                <th class="text-center">remind</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Rahul Sharma</td>
+                                <td>rahul@test.com</td>
+                                <td> 9999999999</td>
+                                <td> 10 May, 2022</td>
+                                <td class="text-center"> Step1 </td>
+                                <td class="text-center"> <a href="#" class="dashboard-btn">Remind</a> </td>
+                            </tr>
+                            <tr>
+                                <td>Rahul Sharma</td>
+                                <td>rahul@test.com</td>
+                                <td> 9999999999</td>
+                                <td> 10 May, 2022</td>
+                                <td class="text-center"> Step1 </td>
+                                <td class="text-center"> <a href="#" class="dashboard-btn">Remind</a> </td>
+                            </tr>
+                            <tr>
+                                <td>Rahul Sharma</td>
+                                <td>rahul@test.com</td>
+                                <td> 9999999999</td>
+                                <td> 10 May, 2022</td>
+                                <td class="text-center"> Step1 </td>
+                                <td class="text-center"> <a href="#" class="dashboard-btn">Remind</a> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_footer_script %}
+<!-- Page level plugins -->
+<script src="{{static('dashboard/vendor/chart.js/Chart.min.js')}}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{static('dashboard/js/demo/chart-area-demo.js')}}"></script>
+<script src="{{static('dashboard/js/demo/chart-pie-demo.js')}}"></script>
+
+<script src="{{static('dashboard/js/integration/rm-overview.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    //  $('.days-select').niceSelect();
+    $('.custom-select').niceSelect();
+   // $('.download-select').niceSelect();
+</script>
+
+{% endblock %}

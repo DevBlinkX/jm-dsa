@@ -1,0 +1,42 @@
+{%extends 'web/base.html.j2'%}
+{% block title %} Thank You | Blinkx{% endblock %}
+{% block content %}
+<!-- main -->
+<main class="auth-page thankyou-page m-4">
+
+  <!-- banner -->
+  <section class="banner-section">
+    <div class="container">
+      <div class="row theme-bg-gray py-3 position-relative border-radious-10">
+        <div class="col-12 col-md-12">
+          <!-- sidebar -->
+          <div class="auth-sidebar text-center">
+            <div class="gradient-bg">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="top-left">
+              <img src="{{static('assets/images/icons/s1.png')}}" alt="dot" class="top-right">
+              <img src="{{static('assets/images/icons/s2.png')}}" alt="dot" class="bottom-left">
+              <img src="{{static('assets/images/icons/dot.svg')}}" alt="dot" class="bottom-right">
+              <div class="row">
+                <div class="col-md-9 col-lg-8 m-auto px-md-4 px-4">
+                  <img src="{{static('assets/images/thankyou.svg')}}" alt="dot" class="img-fluid mt-4 pt-0">
+                  <h1 class="my-4 text-white">Thank You!</h1>
+                  <p class="text-white mb-3"> We are super thrilled to have you on board blinkx - the lightning-fast broking platform.</p>
+                  <p class="text-white mb-4">So, fasten your seatbelts as we set out to explore the ultimate galaxy of trading and investment opportunities.</p>
+                  <!-- <a href="/" class="btn btn-primary gradient-btn-white my-3 px-3">Go To Home</a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- sidebar -->
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- banner end-->
+
+</main>
+<!-- main end -->
+{% endblock %}
